@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+
+<BorderPane fx:id="MyBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="619.0" prefWidth="919.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.sortamine.Controller">
+   <left>
+      <ListView fx:id="AlgorithmListView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></ListView>
+   </left>
+   <top>
+      <AnchorPane fx:id="MenuAnchorPane" prefHeight="87.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <ChoiceBox fx:id="ArrayTypeChoiceBox" layoutX="589.0" layoutY="44.0" prefHeight="28.0" prefWidth="159.0" />
+            <Button fx:id="GenerateButton" layoutX="784.0" layoutY="39.0" mnemonicParsing="false" onAction="#Generate" text="Generate" />
+            <Slider fx:id="SpeedSlider" layoutX="390.0" layoutY="33.0" majorTickUnit="5.0" max="30.0" min="5.0" minorTickCount="4" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
+            <Label fx:id="ArrayTypeLabel" alignment="CENTER" layoutX="600.0" layoutY="14.0" prefHeight="24.0" prefWidth="183.0" text="Choose Generated Array Type" />
+            <Label fx:id="SpeedLabel" alignment="CENTER" layoutX="341.0" layoutY="35.0" text="Speed:" />
+            <CheckBox fx:id="VisualizeCheckBox" layoutX="164.0" layoutY="49.0" mnemonicParsing="false" text="VisualizerMode" />
+            <Label alignment="CENTER" layoutX="337.0" layoutY="17.0" text="Current Speed:" />
+            <Label fx:id="SpeedValueLabel" alignment="CENTER" layoutX="430.0" layoutY="16.0" prefHeight="18.0" prefWidth="60.0" />
+            <Label fx:id="selectAlgorithmLabel" alignment="CENTER" layoutX="9.0" layoutY="65.0" prefHeight="18.0" prefWidth="154.0" text="Select an Algorithm" />
+         </children>
+      </AnchorPane>
+   </top>
+   <center>
+      <Pane fx:id="CenterPane" prefHeight="149.0" prefWidth="320.0" BorderPane.alignment="CENTER" />
+   </center>
+   <bottom>
+      <AnchorPane fx:id="BottomAnchorPane" prefHeight="112.0" prefWidth="660.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="ComparisonsLabel" alignment="CENTER" layoutX="238.0" layoutY="38.0" prefHeight="36.0" prefWidth="104.0" text="Comparisons:" />
+            <Label fx:id="SwapsLabel" alignment="CENTER" layoutX="476.0" layoutY="38.0" prefHeight="35.0" prefWidth="96.0" text="Interchanges:" />
+            <Label fx:id="RunTimeLabel" alignment="CENTER" layoutX="35.0" layoutY="40.0" prefHeight="32.0" prefWidth="78.0" text="RunTime:" />
+            <Label fx:id="RunTimeValueLabel" alignment="CENTER" layoutX="113.0" layoutY="47.0" prefHeight="18.0" prefWidth="46.0" />
+            <Label fx:id="ComparisonsValueLabel" alignment="CENTER" layoutX="342.0" layoutY="47.0" prefHeight="18.0" prefWidth="58.0" />
+            <Label fx:id="InterchangesValueLabel" alignment="CENTER" layoutX="587.0" layoutY="47.0" prefHeight="18.0" prefWidth="58.0" />
+            <Label fx:id="ChosenAlgorithmLabel" alignment="CENTER" layoutX="35.0" layoutY="14.0" text="Selected Algorithm: " />
+            <Label fx:id="AlgorithmLabel" layoutX="142.0" layoutY="13.0" prefHeight="18.0" prefWidth="84.0" />
+         </children>
+      </AnchorPane>
+   </bottom>
+   <right>
+      <AnchorPane fx:id="RightAnchorPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ProgressIndicator fx:id="SortingProgressIndicator" layoutX="86.0" layoutY="200.0" prefHeight="66.0" prefWidth="34.0" progress="0.0">
+               <effect>
+                  <Blend />
+               </effect>
+            </ProgressIndicator>
+            <Button fx:id="SortButton" alignment="CENTER" layoutX="41.0" layoutY="25.0" mnemonicParsing="false" onAction="#sort" prefHeight="26.0" prefWidth="117.0" text="Sort" />
+            <Button fx:id="StopButton" alignment="CENTER" layoutX="40.0" layoutY="60.0" mnemonicParsing="false" onAction="#stop" prefHeight="26.0" prefWidth="117.0" text="Stop" />
+         </children>
+      </AnchorPane>
+   </right>
+</BorderPane>

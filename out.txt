@@ -1,0 +1,147 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------------< com.app:Sortamine >--------------------------
+[INFO] Building Sortamine 1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ Sortamine ---
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-utils/3.0/plexus-utils-3.0.jar
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-plugin-api/2.0.6/maven-plugin-api-2.0.6.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-plugin-api/2.0.6/maven-plugin-api-2.0.6.jar (13 kB at 22 kB/s)
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-utils/3.0/plexus-utils-3.0.jar (226 kB at 341 kB/s)
+[INFO] Deleting D:\Engineering\CSED\2nd Year\2nd Semester\Data Structures and Algorithms\Labs\Sortamine\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ Sortamine ---
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-project/2.0.6/maven-project-2.0.6.jar
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-profile/2.0.6/maven-profile-2.0.6.jar
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-artifact-manager/2.0.6/maven-artifact-manager-2.0.6.jar
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-plugin-registry/2.0.6/maven-plugin-registry-2.0.6.jar
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-core/2.0.6/maven-core-2.0.6.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-profile/2.0.6/maven-profile-2.0.6.jar (35 kB at 248 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-plugin-parameter-documenter/2.0.6/maven-plugin-parameter-documenter-2.0.6.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-project/2.0.6/maven-project-2.0.6.jar (116 kB at 621 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/reporting/maven-reporting-api/2.0.6/maven-reporting-api-2.0.6.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-artifact-manager/2.0.6/maven-artifact-manager-2.0.6.jar (57 kB at 259 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/doxia/doxia-sink-api/1.0-alpha-7/doxia-sink-api-1.0-alpha-7.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-plugin-registry/2.0.6/maven-plugin-registry-2.0.6.jar (29 kB at 119 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-repository-metadata/2.0.6/maven-repository-metadata-2.0.6.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-plugin-parameter-documenter/2.0.6/maven-plugin-parameter-documenter-2.0.6.jar (21 kB at 77 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-error-diagnostics/2.0.6/maven-error-diagnostics-2.0.6.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-core/2.0.6/maven-core-2.0.6.jar (152 kB at 509 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/commons-cli/commons-cli/1.0/commons-cli-1.0.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/reporting/maven-reporting-api/2.0.6/maven-reporting-api-2.0.6.jar (9.9 kB at 32 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-plugin-descriptor/2.0.6/maven-plugin-descriptor-2.0.6.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/doxia/doxia-sink-api/1.0-alpha-7/doxia-sink-api-1.0-alpha-7.jar (5.9 kB at 18 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-interactivity-api/1.0-alpha-4/plexus-interactivity-api-1.0-alpha-4.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-repository-metadata/2.0.6/maven-repository-metadata-2.0.6.jar (24 kB at 68 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/classworlds/classworlds/1.1/classworlds-1.1.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-error-diagnostics/2.0.6/maven-error-diagnostics-2.0.6.jar (14 kB at 34 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-artifact/2.0.6/maven-artifact-2.0.6.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/commons-cli/commons-cli/1.0/commons-cli-1.0.jar (30 kB at 72 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-settings/2.0.6/maven-settings-2.0.6.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-plugin-descriptor/2.0.6/maven-plugin-descriptor-2.0.6.jar (37 kB at 84 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-model/2.0.6/maven-model-2.0.6.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-interactivity-api/1.0-alpha-4/plexus-interactivity-api-1.0-alpha-4.jar (13 kB at 30 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-monitor/2.0.6/maven-monitor-2.0.6.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/classworlds/classworlds/1.1/classworlds-1.1.jar (38 kB at 77 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-container-default/1.0-alpha-9-stable-1/plexus-container-default-1.0-alpha-9-stable-1.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-artifact/2.0.6/maven-artifact-2.0.6.jar (87 kB at 159 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/junit/junit/3.8.1/junit-3.8.1.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-settings/2.0.6/maven-settings-2.0.6.jar (49 kB at 86 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-utils/2.0.5/plexus-utils-2.0.5.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-monitor/2.0.6/maven-monitor-2.0.6.jar (10 kB at 17 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/shared/maven-filtering/1.1/maven-filtering-1.1.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-model/2.0.6/maven-model-2.0.6.jar (86 kB at 129 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/sonatype/plexus/plexus-build-api/0.0.4/plexus-build-api-0.0.4.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-container-default/1.0-alpha-9-stable-1/plexus-container-default-1.0-alpha-9-stable-1.jar (194 kB at 281 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-interpolation/1.13/plexus-interpolation-1.13.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/junit/junit/3.8.1/junit-3.8.1.jar (121 kB at 169 kB/s)
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/shared/maven-filtering/1.1/maven-filtering-1.1.jar (43 kB at 57 kB/s)
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-utils/2.0.5/plexus-utils-2.0.5.jar (223 kB at 288 kB/s)
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/sonatype/plexus/plexus-build-api/0.0.4/plexus-build-api-0.0.4.jar (6.8 kB at 8.6 kB/s)
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-interpolation/1.13/plexus-interpolation-1.13.jar (61 kB at 75 kB/s)
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.13.0:compile (default-compile) @ Sortamine ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 19 source files with javac [debug target 21 module-path] to target\classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /D:/Engineering/CSED/2nd Year/2nd Semester/Data Structures and Algorithms/Labs/Sortamine/src/main/java/com/app/sortamine/algorithms/MergeSort.java:[12,18] cannot find symbol
+  symbol:   class SortingEvent
+  location: class com.app.sortamine.algorithms.MergeSort
+[ERROR] /D:/Engineering/CSED/2nd Year/2nd Semester/Data Structures and Algorithms/Labs/Sortamine/src/main/java/com/app/sortamine/algorithms/MergeSort.java:[60,17] cannot find symbol
+  symbol:   class SortingEvent
+  location: class com.app.sortamine.algorithms.MergeSort
+[ERROR] /D:/Engineering/CSED/2nd Year/2nd Semester/Data Structures and Algorithms/Labs/Sortamine/src/main/java/com/app/sortamine/algorithms/SelectionSort.java:[14,17] cannot find symbol
+  symbol:   class SortingEvent
+  location: class com.app.sortamine.algorithms.SelectionSort
+[ERROR] /D:/Engineering/CSED/2nd Year/2nd Semester/Data Structures and Algorithms/Labs/Sortamine/src/main/java/com/app/sortamine/algorithms/MergeSort.java:[22,40] cannot find symbol
+  symbol:   class CompareEvent
+  location: class com.app.sortamine.algorithms.MergeSort
+[ERROR] /D:/Engineering/CSED/2nd Year/2nd Semester/Data Structures and Algorithms/Labs/Sortamine/src/main/java/com/app/sortamine/algorithms/MergeSort.java:[40,40] cannot find symbol
+  symbol:   class OverwriteEvent
+  location: class com.app.sortamine.algorithms.MergeSort
+[ERROR] /D:/Engineering/CSED/2nd Year/2nd Semester/Data Structures and Algorithms/Labs/Sortamine/src/main/java/com/app/sortamine/algorithms/SelectionSort.java:[15,14] cannot find symbol
+  symbol:   class SortingEvent
+  location: class com.app.sortamine.algorithms.SelectionSort
+[ERROR] /D:/Engineering/CSED/2nd Year/2nd Semester/Data Structures and Algorithms/Labs/Sortamine/src/main/java/com/app/sortamine/algorithms/SelectionSort.java:[18,35] cannot find symbol
+  symbol:   class MinSelectionEvent
+  location: class com.app.sortamine.algorithms.SelectionSort
+[ERROR] /D:/Engineering/CSED/2nd Year/2nd Semester/Data Structures and Algorithms/Labs/Sortamine/src/main/java/com/app/sortamine/algorithms/SelectionSort.java:[20,39] cannot find symbol
+  symbol:   class CompareEvent
+  location: class com.app.sortamine.algorithms.SelectionSort
+[ERROR] /D:/Engineering/CSED/2nd Year/2nd Semester/Data Structures and Algorithms/Labs/Sortamine/src/main/java/com/app/sortamine/algorithms/SelectionSort.java:[24,43] cannot find symbol
+  symbol:   class MinSelectionEvent
+  location: class com.app.sortamine.algorithms.SelectionSort
+[ERROR] /D:/Engineering/CSED/2nd Year/2nd Semester/Data Structures and Algorithms/Labs/Sortamine/src/main/java/com/app/sortamine/algorithms/SelectionSort.java:[30,43] cannot find symbol
+  symbol:   class SwapEvent
+  location: class com.app.sortamine.algorithms.SelectionSort
+[INFO] 10 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.157 s
+[INFO] Finished at: 2026-03-04T02:38:40+02:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile) on project Sortamine: Compilation failure: Compilation failure: 
+[ERROR] /D:/Engineering/CSED/2nd Year/2nd Semester/Data Structures and Algorithms/Labs/Sortamine/src/main/java/com/app/sortamine/algorithms/MergeSort.java:[12,18] cannot find symbol
+[ERROR]   symbol:   class SortingEvent
+[ERROR]   location: class com.app.sortamine.algorithms.MergeSort
+[ERROR] /D:/Engineering/CSED/2nd Year/2nd Semester/Data Structures and Algorithms/Labs/Sortamine/src/main/java/com/app/sortamine/algorithms/MergeSort.java:[60,17] cannot find symbol
+[ERROR]   symbol:   class SortingEvent
+[ERROR]   location: class com.app.sortamine.algorithms.MergeSort
+[ERROR] /D:/Engineering/CSED/2nd Year/2nd Semester/Data Structures and Algorithms/Labs/Sortamine/src/main/java/com/app/sortamine/algorithms/SelectionSort.java:[14,17] cannot find symbol
+[ERROR]   symbol:   class SortingEvent
+[ERROR]   location: class com.app.sortamine.algorithms.SelectionSort
+[ERROR] /D:/Engineering/CSED/2nd Year/2nd Semester/Data Structures and Algorithms/Labs/Sortamine/src/main/java/com/app/sortamine/algorithms/MergeSort.java:[22,40] cannot find symbol
+[ERROR]   symbol:   class CompareEvent
+[ERROR]   location: class com.app.sortamine.algorithms.MergeSort
+[ERROR] /D:/Engineering/CSED/2nd Year/2nd Semester/Data Structures and Algorithms/Labs/Sortamine/src/main/java/com/app/sortamine/algorithms/MergeSort.java:[40,40] cannot find symbol
+[ERROR]   symbol:   class OverwriteEvent
+[ERROR]   location: class com.app.sortamine.algorithms.MergeSort
+[ERROR] /D:/Engineering/CSED/2nd Year/2nd Semester/Data Structures and Algorithms/Labs/Sortamine/src/main/java/com/app/sortamine/algorithms/SelectionSort.java:[15,14] cannot find symbol
+[ERROR]   symbol:   class SortingEvent
+[ERROR]   location: class com.app.sortamine.algorithms.SelectionSort
+[ERROR] /D:/Engineering/CSED/2nd Year/2nd Semester/Data Structures and Algorithms/Labs/Sortamine/src/main/java/com/app/sortamine/algorithms/SelectionSort.java:[18,35] cannot find symbol
+[ERROR]   symbol:   class MinSelectionEvent
+[ERROR]   location: class com.app.sortamine.algorithms.SelectionSort
+[ERROR] /D:/Engineering/CSED/2nd Year/2nd Semester/Data Structures and Algorithms/Labs/Sortamine/src/main/java/com/app/sortamine/algorithms/SelectionSort.java:[20,39] cannot find symbol
+[ERROR]   symbol:   class CompareEvent
+[ERROR]   location: class com.app.sortamine.algorithms.SelectionSort
+[ERROR] /D:/Engineering/CSED/2nd Year/2nd Semester/Data Structures and Algorithms/Labs/Sortamine/src/main/java/com/app/sortamine/algorithms/SelectionSort.java:[24,43] cannot find symbol
+[ERROR]   symbol:   class MinSelectionEvent
+[ERROR]   location: class com.app.sortamine.algorithms.SelectionSort
+[ERROR] /D:/Engineering/CSED/2nd Year/2nd Semester/Data Structures and Algorithms/Labs/Sortamine/src/main/java/com/app/sortamine/algorithms/SelectionSort.java:[30,43] cannot find symbol
+[ERROR]   symbol:   class SwapEvent
+[ERROR]   location: class com.app.sortamine.algorithms.SelectionSort
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

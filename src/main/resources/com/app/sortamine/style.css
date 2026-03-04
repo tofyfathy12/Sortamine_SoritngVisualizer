@@ -1,0 +1,97 @@
+/* Root */
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 13px;
+    -fx-base: #2b2b2b;
+    -fx-background: #1e1e1e;
+}
+
+/* Center pane - where bars are displayed */
+#CenterPane {
+    -fx-background-color: #1a1a2e;
+    -fx-border-color: #333;
+    -fx-border-width: 1;
+}
+
+/* Top menu bar */
+#MenuAnchorPane {
+    -fx-background-color: #2b2b2b;
+    -fx-border-color: #444;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 8;
+}
+
+/* Bottom stats panel */
+#BottomAnchorPane {
+    -fx-background-color: #2b2b2b;
+    -fx-border-color: #444;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 8;
+}
+
+/* Right panel */
+#RightAnchorPane {
+    -fx-background-color: #2b2b2b;
+    -fx-border-color: #444;
+    -fx-border-width: 0 0 0 1;
+}
+
+/* Algorithm list */
+#AlgorithmListView {
+    -fx-background-color: #252525;
+    -fx-border-color: #444;
+    -fx-border-width: 0 1 0 0;
+}
+
+/* Labels */
+.label {
+    -fx-text-fill: #d4d4d4;
+}
+
+/* Buttons */
+.button {
+    -fx-background-color: #3a5fcd;
+    -fx-text-fill: white;
+    -fx-background-radius: 4;
+    -fx-padding: 6 16;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #4a6fdd;
+}
+
+.button:pressed {
+    -fx-background-color: #2a4fbd;
+}
+
+/* Choice box */
+.choice-box {
+    -fx-background-color: #3c3c3c;
+    -fx-text-fill: #d4d4d4;
+    -fx-background-radius: 4;
+}
+
+/* Slider */
+.slider .track {
+    -fx-background-color: #555;
+}
+
+.slider .thumb {
+    -fx-background-color: #3a5fcd;
+}
+
+/* Checkbox */
+.check-box {
+    -fx-text-fill: #d4d4d4;
+}
+
+.check-box .box {
+    -fx-background-color: #3c3c3c;
+    -fx-border-color: #555;
+    -fx-border-radius: 2;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: white;
+}
