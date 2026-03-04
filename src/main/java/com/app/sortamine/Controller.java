@@ -10,10 +10,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -38,8 +36,9 @@ public class Controller implements Initializable {
     private ChoiceBox<ArrayType> ArrayTypeChoiceBox;
 
     @FXML
+    private BorderPane borderPane;
+    @FXML
     private Pane CenterPane;
-
     @FXML
     private Slider SpeedSlider;
     @FXML
@@ -48,9 +47,13 @@ public class Controller implements Initializable {
 
     private ArrayGenerator arrayGenerator;
 
-    private int[] arr;
-    private Rectangle[] bars;
+    private volatile int[] arr;
+    private volatile Rectangle[] bars;
     private volatile boolean isSorting = false;
+
+    @FXML
+    private CheckBox VisualizeCheckBox;
+    private boolean visualizeMode;
 
     @FXML
     private ListView<StrategyType> AlgorithmListView;
@@ -69,6 +72,8 @@ public class Controller implements Initializable {
         initializeChoiceBox(ArrayTypeChoiceBox);
         initializeSlider(SpeedSlider);
         initializeListView(AlgorithmListView);
+        VisualizeCheckBox.setSelected(true);
+        visualizeMode = true;
     }
 
     private void initializeChoiceBox(ChoiceBox<ArrayType> choiceBox) {
@@ -102,6 +107,11 @@ public class Controller implements Initializable {
     }
 
     @FXML
+    public void change(ActionEvent event) {
+        visualizeMode = VisualizeCheckBox.isSelected();
+    }
+
+    @FXML
     public void Generate(ActionEvent event) {
         if (isSorting)
             return;
@@ -113,21 +123,41 @@ public class Controller implements Initializable {
     }
 
     @FXML
+    public void logout() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Close Sortamine");
+        alert.setHeaderText("Why are you closing my nigga?");
+        alert.setContentText("You are such a nigga if you close my sortamine !!");
+
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            isSorting = false;
+            Platform.exit();
+            System.exit(0);
+        }
+    }
+
+    @FXML
     public void stop(ActionEvent event) {
         isSorting = false;
     }
 
     @FXML
-    public void sort(ActionEvent event) {
-        if (isSorting || sortingStrategy == null || arr == null)
+    public void visualizeSort(ActionEvent event) {
+        if (!visualizeMode || isSorting || sortingStrategy == null || arr == null)
             return;
         isSorting = true;
 
         List<SortingEvent> sortingEvents = sortingStrategy.generateSortHistory(arr);
 
         new Thread(() -> {
+            int comparisons = 0;
+            int interchanges = 0;
+            long time = System.nanoTime();
             try {
                 for (SortingEvent sortingEvent : sortingEvents) {
+
+                    if (!isSorting)
+                        break;
 
                     if (sortingEvent instanceof SwapEvent swap) {
                         CountDownLatch latch = new CountDownLatch(1);
@@ -148,6 +178,8 @@ public class Controller implements Initializable {
                         });
                         latch.await();
 
+                        interchanges++;
+
                     } else if (sortingEvent instanceof CompareEvent compare) {
                         CountDownLatch latch = new CountDownLatch(1);
                         Platform.runLater(() -> {
@@ -158,6 +190,7 @@ public class Controller implements Initializable {
                             anim.play();
                         });
                         latch.await();
+                        comparisons++;
 
                     } else if (sortingEvent instanceof OverwriteEvent overwrite) {
                         CountDownLatch latch = new CountDownLatch(1);
@@ -170,6 +203,7 @@ public class Controller implements Initializable {
                             anim.play();
                         });
                         latch.await();
+                        interchanges++;
 
                     } else if (sortingEvent instanceof MinSelectionEvent minSelection) {
                         CountDownLatch latch = new CountDownLatch(1);
@@ -182,6 +216,16 @@ public class Controller implements Initializable {
                         });
                         latch.await();
                     }
+
+                    final long elapsed = System.nanoTime() - time;
+                    final int currentComparisons = comparisons;
+                    final int currentInterchanges = interchanges;
+
+                    Platform.runLater(() -> {
+                        RunTimeValueLabel.setText(Long.toString(elapsed / 1_000_000_000L));
+                        ComparisonsValueLabel.setText(Long.toString(currentComparisons));
+                        InterchangesValueLabel.setText(Long.toString(currentInterchanges) + " s");
+                    });
                 }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
