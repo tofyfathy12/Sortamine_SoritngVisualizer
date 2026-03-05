@@ -9,4 +9,8 @@ public interface SortingStrategy { // TODO: color the sorted portion of the arra
     List<SortingEvent> generateSortHistory(int[] originalData);
 
     String getAlgorithmName();
+
+    int getComparisons();
+
+    int getInterchanges();
 }

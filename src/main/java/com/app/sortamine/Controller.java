@@ -2,62 +2,63 @@ package com.app.sortamine;
 
 import com.app.sortamine.algorithms.*;
 import com.app.sortamine.events.*;
+import com.app.sortamine.models.ComparisonResult;
 import com.app.sortamine.utils.*;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
 
 public class Controller implements Initializable {
     @FXML
     private Label welcomeText;
-
-    @FXML
-    protected void onHelloButtonClick(ActionEvent event) {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }
-
     @FXML
     private ChoiceBox<ArrayType> ArrayTypeChoiceBox;
-
     @FXML
-    private BorderPane borderPane;
+    private ChoiceBox<File> filesChoiceBox;
+    @FXML
+    private Label selectedFileValueLabel;
     @FXML
     private Pane CenterPane;
     @FXML
     private Slider SpeedSlider;
     @FXML
     private Label SpeedValueLabel;
-    private volatile int speedValue;
-
-    private ArrayGenerator arrayGenerator;
-
-    private volatile int[] arr;
-    private volatile Rectangle[] bars;
-    private volatile boolean isSorting = false;
-
+    @FXML
+    private Button GenerateButton;
+    @FXML
+    private Button SortButton;
+    @FXML
+    private Button StopButton;
+    @FXML
+    private Spinner<Integer> SizeSpinner;
+    @FXML
+    private Spinner<Integer> NumberOfRunsSpinner;
     @FXML
     private CheckBox VisualizeCheckBox;
-    private boolean visualizeMode;
-
     @FXML
     private ListView<StrategyType> AlgorithmListView;
-    private SortingStrategy sortingStrategy;
     @FXML
     private Label AlgorithmLabel;
     @FXML
@@ -66,66 +67,200 @@ public class Controller implements Initializable {
     private Label ComparisonsValueLabel;
     @FXML
     private Label InterchangesValueLabel;
+    @FXML
+    private ProgressIndicator SortingProgressIndicator;
+
+    private volatile int speedValue;
+    private volatile int[] arr;
+    private volatile Rectangle[] bars;
+    private volatile boolean isSorting = false;
+
+    private SpinnerValueFactory<Integer> visualizerSpinnerValueFactory;
+    private SpinnerValueFactory<Integer> comparisonSpinnerValueFactory;
+
+    private boolean visualizeMode;
+    private SortingStrategy sortingStrategy;
+
+    private int[] fileArray = null;
+    private String fileName = null;
+    private List<File> files = new ArrayList<>();
+
+    private TableView<ComparisonResult> resultsTable;
+    private final ObservableList<ComparisonResult> comparisonResults = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initializeChoiceBox(ArrayTypeChoiceBox);
-        initializeSlider(SpeedSlider);
-        initializeListView(AlgorithmListView);
+        initializeArrayTypeChoiceBox();
+        initializeSlider();
+        initializeListView();
         VisualizeCheckBox.setSelected(true);
         visualizeMode = true;
+        initializeSpinners();
+        resultsTable = ComparisonService.createComparisonTable(comparisonResults);
+        initializeResizeListeners();
+        initializeFilesChoiceBox();
     }
 
-    private void initializeChoiceBox(ChoiceBox<ArrayType> choiceBox) {
+    private void initializeArrayTypeChoiceBox() {
         ArrayTypeChoiceBox.getItems().addAll(ArrayType.values());
         ArrayTypeChoiceBox.getSelectionModel().select(0);
     }
 
-    private void initializeSlider(Slider slider) {
-        SpeedValueLabel.setText(Integer.toString((int) slider.getValue()));
-        speedValue = (int) slider.getValue();
+    private void initializeFilesChoiceBox() {
+        filesChoiceBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                try {
+                    fileArray = FileService.loadArrayFromFile(newVal);
+                    fileName = newVal.getName();
+
+                    this.arr = Arrays.copyOf(fileArray, fileArray.length);
+
+                    if (visualizeMode && arr.length <= 100) {
+                        this.bars = BarGenerator.generateBars(this.arr, CenterPane);
+                    }
+                    this.selectedFileValueLabel.setText(fileName + " (" + fileArray.length + " elements)");
+                } catch (IOException | NumberFormatException e) {
+                    this.selectedFileValueLabel.setText("Error: " + e.getMessage());
+                }
+            }
+        });
+    }
+
+    private void initializeSlider() {
+        SpeedValueLabel.setText(Integer.toString((int) SpeedSlider.getValue()));
+        speedValue = (int) SpeedSlider.getValue();
 
         SpeedSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                speedValue = (int) slider.getValue();
+                speedValue = (int) SpeedSlider.getValue();
                 SpeedValueLabel.setText(Integer.toString(speedValue));
             }
         });
     }
 
-    private void initializeListView(ListView<StrategyType> listView) {
-        listView.getItems().addAll(StrategyType.values());
-        listView.getSelectionModel().select(0);
-        sortingStrategy = listView.getSelectionModel().getSelectedItem().getStrategy();
+    private void initializeListView() {
+        AlgorithmListView.getItems().addAll(StrategyType.values());
+        AlgorithmListView.getSelectionModel().select(0);
+        sortingStrategy = AlgorithmListView.getSelectionModel().getSelectedItem().getStrategy();
         AlgorithmLabel.setText(sortingStrategy.getAlgorithmName());
 
-        listView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            sortingStrategy = newVal.getStrategy();
-            AlgorithmLabel.setText(sortingStrategy.getAlgorithmName());
+        AlgorithmListView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                sortingStrategy = newVal.getStrategy();
+                AlgorithmLabel.setText(sortingStrategy.getAlgorithmName());
+            }
         });
     }
 
+    private void initializeSpinners() {
+        visualizerSpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 50);
+        comparisonSpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10_000, 5000);
+        setSpinner();
+        NumberOfRunsSpinner.setValueFactory(
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 5));
+    }
+
+    private void initializeResizeListeners() {
+        CenterPane.widthProperty().addListener((obs, oldVal, newVal) -> rebuildBars());
+        CenterPane.heightProperty().addListener((obs, oldVal, newVal) -> rebuildBars());
+    }
+
+    private void rebuildBars() {
+        if (!visualizeMode || arr == null || isSorting)
+            return;
+        bars = BarGenerator.generateBars(arr, CenterPane);
+    }
+
+    private void setSpinner() {
+        SizeSpinner.setValueFactory(visualizeMode ? visualizerSpinnerValueFactory : comparisonSpinnerValueFactory);
+    }
+
     @FXML
-    public void change(ActionEvent event) {
+    protected void onHelloButtonClick(ActionEvent event) {
+        welcomeText.setText("Welcome to JavaFX Application!");
+    }
+
+    @FXML
+    public void visualizeCheckBoxChange(ActionEvent event) {
         visualizeMode = VisualizeCheckBox.isSelected();
+        setSpinner();
+
+        GenerateButton.setDisable(!visualizeMode);
+        SpeedSlider.setDisable(!visualizeMode);
+        AlgorithmListView.setDisable(!visualizeMode);
+        StopButton.setDisable(!visualizeMode);
+        NumberOfRunsSpinner.setDisable(visualizeMode);
+
+        if (visualizeMode) {
+            SortButton.setText("Sort");
+            CenterPane.getChildren().remove(resultsTable);
+            if (arr != null) {
+                bars = BarGenerator.generateBars(arr, CenterPane);
+            }
+        } else {
+            SortButton.setText("Compare");
+            CenterPane.getChildren().clear();
+            resultsTable.prefWidthProperty().bind(CenterPane.widthProperty());
+            resultsTable.prefHeightProperty().bind(CenterPane.heightProperty());
+            CenterPane.getChildren().add(resultsTable);
+        }
     }
 
     @FXML
     public void Generate(ActionEvent event) {
         if (isSorting)
             return;
-        this.arrayGenerator = ArrayTypeChoiceBox.getValue().getGenerator();
-        Random random = new Random();
-        int size = 20 + random.nextInt(101);
-        this.arr = arrayGenerator.generate(size, CenterPane.getHeight());
-        this.bars = BarGenerator.generateBars(this.arr, CenterPane);
+
+        filesChoiceBox.getSelectionModel().clearSelection();
+        selectedFileValueLabel.setText("");
+        fileArray = null;
+        fileName = null;
+
+        ArrayGenerator arrayGenerator = ArrayTypeChoiceBox.getValue().getGenerator();
+        int size = SizeSpinner.getValue();
+
+        if (visualizeMode) {
+            this.arr = arrayGenerator.generate(size, CenterPane.getHeight());
+            this.bars = BarGenerator.generateBars(this.arr, CenterPane);
+        }
+    }
+
+    @FXML
+    public void loadFile(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Array File");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+
+        Stage stage = (Stage) CenterPane.getScene().getWindow();
+        File file = fileChooser.showOpenDialog(stage);
+
+        if (file != null) {
+            try {
+                files.add(file);
+                filesChoiceBox.getItems().add(file);
+                filesChoiceBox.getSelectionModel().select(files.size() - 1);
+                fileArray = FileService.loadArrayFromFile(file);
+                fileName = file.getName();
+                this.arr = Arrays.copyOf(fileArray, fileArray.length);
+
+                if (visualizeMode && arr.length <= 100) {
+                    this.bars = BarGenerator.generateBars(this.arr, CenterPane);
+                }
+                AlgorithmLabel.setText("File: " + fileName + " (" + fileArray.length + " elements)");
+            } catch (IOException | NumberFormatException e) {
+                AlgorithmLabel.setText("Error: " + e.getMessage());
+                fileArray = null;
+                fileName = null;
+            }
+        }
     }
 
     @FXML
     public void logout() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Close Sortamine");
+        alert.setTitle("Closing Sortamine");
         alert.setHeaderText("Why are you closing my nigga?");
         alert.setContentText("You are such a nigga if you close my sortamine !!");
 
@@ -142,20 +277,35 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    public void visualizeSort(ActionEvent event) {
-        if (!visualizeMode || isSorting || sortingStrategy == null || arr == null)
+    public void sort(ActionEvent event) {
+        if (visualizeMode) {
+            visualizeSort();
+        } else {
+            comparisonSort();
+        }
+    }
+
+    private void visualizeSort() {
+        if (isSorting || sortingStrategy == null || arr == null)
             return;
         isSorting = true;
 
         List<SortingEvent> sortingEvents = sortingStrategy.generateSortHistory(arr);
 
+        int maxVal = 0;
+        for (int v : arr) {
+            if (v > maxVal)
+                maxVal = v;
+        }
+        final int fixedMaxVal = maxVal;
+
         new Thread(() -> {
             int comparisons = 0;
             int interchanges = 0;
+            int progressCounter = 0;
             long time = System.nanoTime();
             try {
                 for (SortingEvent sortingEvent : sortingEvents) {
-
                     if (!isSorting)
                         break;
 
@@ -164,7 +314,6 @@ public class Controller implements Initializable {
                         Platform.runLater(() -> {
                             Rectangle rec1 = bars[swap.indexA];
                             Rectangle rec2 = bars[swap.indexB];
-
                             bars[swap.indexA] = rec2;
                             bars[swap.indexB] = rec1;
 
@@ -172,20 +321,21 @@ public class Controller implements Initializable {
                             arr[swap.indexA] = arr[swap.indexB];
                             arr[swap.indexB] = temp;
 
-                            Animation anim = createSwapAnimation(rec1, rec2, swap.indexA, swap.indexB);
+                            Animation anim = SortingAnimator.createSwapAnimation(
+                                    rec1, rec2, swap.indexA, swap.indexB,
+                                    CenterPane.getWidth(), arr.length, speedValue);
                             anim.setOnFinished(e -> latch.countDown());
                             anim.play();
                         });
                         latch.await();
-
                         interchanges++;
 
                     } else if (sortingEvent instanceof CompareEvent compare) {
                         CountDownLatch latch = new CountDownLatch(1);
                         Platform.runLater(() -> {
-                            Animation anim = createColorFlashAnimation(
+                            Animation anim = SortingAnimator.createColorFlashAnimation(
                                     bars[compare.indexA], bars[compare.indexB],
-                                    Color.YELLOW, Color.STEELBLUE);
+                                    Color.YELLOW, Color.STEELBLUE, speedValue);
                             anim.setOnFinished(e -> latch.countDown());
                             anim.play();
                         });
@@ -196,9 +346,9 @@ public class Controller implements Initializable {
                         CountDownLatch latch = new CountDownLatch(1);
                         Platform.runLater(() -> {
                             arr[overwrite.targetIndex] = overwrite.newValue;
-
-                            Animation anim = createHeightChangeAnimation(
-                                    bars[overwrite.targetIndex], overwrite.newValue);
+                            Animation anim = SortingAnimator.createHeightChangeAnimation(
+                                    bars[overwrite.targetIndex], overwrite.newValue,
+                                    fixedMaxVal, CenterPane.getHeight(), speedValue);
                             anim.setOnFinished(e -> latch.countDown());
                             anim.play();
                         });
@@ -208,23 +358,26 @@ public class Controller implements Initializable {
                     } else if (sortingEvent instanceof MinSelectionEvent minSelection) {
                         CountDownLatch latch = new CountDownLatch(1);
                         Platform.runLater(() -> {
-                            Animation anim = createSingleColorFlashAnimation(
+                            Animation anim = SortingAnimator.createSingleColorFlashAnimation(
                                     bars[minSelection.minIndex],
-                                    Color.LIMEGREEN, Color.STEELBLUE);
+                                    Color.LIMEGREEN, Color.STEELBLUE, speedValue);
                             anim.setOnFinished(e -> latch.countDown());
                             anim.play();
                         });
                         latch.await();
                     }
 
+                    progressCounter++;
                     final long elapsed = System.nanoTime() - time;
                     final int currentComparisons = comparisons;
                     final int currentInterchanges = interchanges;
-
+                    int currentProgress = progressCounter;
                     Platform.runLater(() -> {
-                        RunTimeValueLabel.setText(Long.toString(elapsed / 1_000_000_000L));
+                        BigDecimal runTime = new BigDecimal(String.format("%.3f", (double) elapsed / 1_000_000_000L));
+                        RunTimeValueLabel.setText(runTime.doubleValue() + " s");
                         ComparisonsValueLabel.setText(Long.toString(currentComparisons));
-                        InterchangesValueLabel.setText(Long.toString(currentInterchanges) + " s");
+                        InterchangesValueLabel.setText(Long.toString(currentInterchanges));
+                        SortingProgressIndicator.setProgress((double) currentProgress / sortingEvents.size());
                     });
                 }
             } catch (InterruptedException e) {
@@ -235,71 +388,19 @@ public class Controller implements Initializable {
         }).start();
     }
 
-    private long getDurationMillis() {
-        return 5000 / (speedValue * 10L);
-    }
+    private void comparisonSort() {
+        if (isSorting)
+            return;
+        isSorting = true;
 
-    private double slotXPosition(int index) {
-        double spacing = 1.0;
-        double barWidth = (CenterPane.getWidth() / arr.length) - spacing;
-        return index * (barWidth + spacing);
-    }
-
-    private ParallelTransition createSwapAnimation(Rectangle rec1, Rectangle rec2, int targetIndexA, int targetIndexB) {
-        double destForRec1 = slotXPosition(targetIndexB);
-        double destForRec2 = slotXPosition(targetIndexA);
-
-        Duration duration = Duration.millis(getDurationMillis());
-        TranslateTransition trans1 = new TranslateTransition(duration, rec1);
-        TranslateTransition trans2 = new TranslateTransition(duration, rec2);
-
-        trans1.setToX(destForRec1 - rec1.getX());
-        trans2.setToX(destForRec2 - rec2.getX());
-
-        return new ParallelTransition(trans1, trans2);
-    }
-
-    private Timeline createHeightChangeAnimation(Rectangle bar, int newValue) {
-        double containerHeight = CenterPane.getHeight();
-        int maxVal = 0;
-        for (int v : arr) {
-            if (v > maxVal)
-                maxVal = v;
-        }
-        double heightRatio = containerHeight / (double) maxVal;
-
-        double newHeight = newValue * heightRatio;
-        double newY = containerHeight - newHeight;
-
-        Duration duration = Duration.millis(getDurationMillis());
-        return new Timeline(
-                new KeyFrame(duration,
-                        new KeyValue(bar.heightProperty(), newHeight),
-                        new KeyValue(bar.yProperty(), newY)));
-    }
-
-    private ParallelTransition createColorFlashAnimation(Rectangle rec1, Rectangle rec2,
-            Color flashColor, Color originalColor) {
-        Duration duration = Duration.millis(getDurationMillis() / 2.0);
-
-        FillTransition fill1On = new FillTransition(duration, rec1, originalColor, flashColor);
-        FillTransition fill2On = new FillTransition(duration, rec2, originalColor, flashColor);
-        FillTransition fill1Off = new FillTransition(duration, rec1, flashColor, originalColor);
-        FillTransition fill2Off = new FillTransition(duration, rec2, flashColor, originalColor);
-
-        SequentialTransition seq1 = new SequentialTransition(fill1On, fill1Off);
-        SequentialTransition seq2 = new SequentialTransition(fill2On, fill2Off);
-
-        return new ParallelTransition(seq1, seq2);
-    }
-
-    private SequentialTransition createSingleColorFlashAnimation(Rectangle rec1,
-            Color flashColor, Color originalColor) {
-        Duration duration = Duration.millis(getDurationMillis() / 2.0);
-
-        FillTransition fillOn = new FillTransition(duration, rec1, originalColor, flashColor);
-        FillTransition fillOff = new FillTransition(duration, rec1, flashColor, originalColor);
-
-        return new SequentialTransition(fillOn, fillOff);
+        ComparisonService.runComparison(
+                SizeSpinner.getValue(),
+                NumberOfRunsSpinner.getValue(),
+                ArrayTypeChoiceBox.getValue(),
+                fileArray, fileName,
+                SortingProgressIndicator,
+                comparisonResults,
+                running -> isSorting = running,
+                () -> isSorting);
     }
 }

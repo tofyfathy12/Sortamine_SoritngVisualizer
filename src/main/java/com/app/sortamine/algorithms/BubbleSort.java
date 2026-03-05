@@ -54,6 +54,16 @@ public class BubbleSort implements SortingStrategy {
         return "Bubble Sort";
     }
 
+    @Override
+    public int getComparisons() {
+        return this.comparisons;
+    }
+
+    @Override
+    public int getInterchanges() {
+        return this.interchanges;
+    }
+
     public static void main(String[] args) {
         BubbleSort bubbleSort = BubbleSort.getInstance();
         int[] arr = { 5, 3, 8, 1, 9, 2, 7, 4, 6 };

@@ -9,5 +9,8 @@ module com.app.sortamine {
     requires java.desktop;
 
     opens com.app.sortamine to javafx.fxml;
+    opens com.app.sortamine.models to javafx.base;
+
     exports com.app.sortamine;
+    exports com.app.sortamine.models;
 }

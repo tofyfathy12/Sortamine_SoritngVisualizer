@@ -43,6 +43,16 @@ public class HeapSort implements SortingStrategy {
         return "Heap Sort";
     }
 
+    @Override
+    public int getComparisons() {
+        return this.comparisons;
+    }
+
+    @Override
+    public int getInterchanges() {
+        return this.interchanges;
+    }
+
     public int getHeapSize() {
         return this.heapSize;
     }
