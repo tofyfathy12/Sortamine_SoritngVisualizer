@@ -272,9 +272,9 @@ public class Controller implements Initializable {
     @FXML
     public void logout() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Closing Sortamine");
-        alert.setHeaderText("Why are you closing my nigga?");
-        alert.setContentText("You are such a nigga if you close my sortamine !!");
+        alert.setTitle("Closing Sortamine !!");
+        alert.setHeaderText("Why are you closing :C ?");
+        alert.setContentText("You are such a meanie if you close my sortamine >:C !!");
 
         if (alert.showAndWait().get() == ButtonType.OK) {
             isSorting = false;
