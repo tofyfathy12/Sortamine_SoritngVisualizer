@@ -27,7 +27,7 @@ public class Sortamino extends Application {
             }
         });
 
-        // scene.getStylesheets().add(Sortamino.class.getResource("style.css").toExternalForm());
+        scene.getStylesheets().add(Sortamino.class.getResource("style.css").toExternalForm());
         stage.getIcons().add(new Image(Sortamino.class.getResourceAsStream("Sortamine_Icon.png")));
         stage.setTitle("Sortamine");
         stage.setScene(scene);

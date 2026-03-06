@@ -1,97 +1,433 @@
-/* Root */
+/* ═══════════════════════════════════════════════════════════════
+   Sortamine — Dark Theme
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Root ── */
 .root {
-    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-family: "Segoe UI", "Inter", sans-serif;
     -fx-font-size: 13px;
-    -fx-base: #2b2b2b;
-    -fx-background: #1e1e1e;
+    -fx-base: #1e1e2e;
+    -fx-background: #181825;
+    -fx-accent: #89b4fa;
 }
 
-/* Center pane - where bars are displayed */
+/* ── Panels ── */
+
 #CenterPane {
-    -fx-background-color: #1a1a2e;
-    -fx-border-color: #333;
+    -fx-background-color: #11111b;
+    -fx-border-color: #313244;
     -fx-border-width: 1;
 }
 
-/* Top menu bar */
 #MenuAnchorPane {
-    -fx-background-color: #2b2b2b;
-    -fx-border-color: #444;
-    -fx-border-width: 0 0 1 0;
+    -fx-background-color: #1e1e2e;
+    -fx-border-color: #313244;
+    -fx-border-width: 0 0 2 0;
     -fx-padding: 8;
 }
 
-/* Bottom stats panel */
 #BottomAnchorPane {
-    -fx-background-color: #2b2b2b;
-    -fx-border-color: #444;
-    -fx-border-width: 1 0 0 0;
+    -fx-background-color: #1e1e2e;
+    -fx-border-color: #313244;
+    -fx-border-width: 2 0 0 0;
     -fx-padding: 8;
 }
 
-/* Right panel */
 #RightAnchorPane {
-    -fx-background-color: #2b2b2b;
-    -fx-border-color: #444;
-    -fx-border-width: 0 0 0 1;
+    -fx-background-color: #1e1e2e;
+    -fx-border-color: #313244;
+    -fx-border-width: 0 0 0 2;
+    -fx-padding: 10;
 }
 
-/* Algorithm list */
+/* ── Algorithm ListView ── */
+
 #AlgorithmListView {
-    -fx-background-color: #252525;
-    -fx-border-color: #444;
-    -fx-border-width: 0 1 0 0;
+    -fx-background-color: #181825;
+    -fx-border-color: #313244;
+    -fx-border-width: 0 2 0 0;
 }
 
-/* Labels */
+#AlgorithmListView .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #cdd6f4;
+    -fx-padding: 8 12;
+    -fx-font-size: 13px;
+}
+
+#AlgorithmListView .list-cell:hover {
+    -fx-background-color: #313244;
+}
+
+#AlgorithmListView .list-cell:selected {
+    -fx-background-color: #45475a;
+    -fx-text-fill: #89b4fa;
+    -fx-font-weight: bold;
+}
+
+#AlgorithmListView .list-cell:selected:hover {
+    -fx-background-color: #585b70;
+}
+
+/* ── Labels ── */
+
 .label {
-    -fx-text-fill: #d4d4d4;
+    -fx-text-fill: #cdd6f4;
 }
 
-/* Buttons */
+/* Stat header labels (RunTime:, Comparisons:, Interchanges:) */
+#RunTimeLabel,
+#ComparisonsLabel,
+#SwapsLabel,
+#ChosenAlgorithmLabel {
+    -fx-text-fill: #a6adc8;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+/* Stat values */
+#RunTimeValueLabel,
+#ComparisonsValueLabel,
+#InterchangesValueLabel {
+    -fx-text-fill: #89b4fa;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+/* Algorithm name */
+#AlgorithmLabel {
+    -fx-text-fill: #a6e3a1;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+/* Speed display */
+#SpeedValueLabel {
+    -fx-text-fill: #f9e2af;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+/* File label in right panel */
+#selectedFileLabel {
+    -fx-text-fill: #a6adc8;
+    -fx-font-size: 11px;
+}
+
+#selectedFileValueLabel {
+    -fx-text-fill: #a6e3a1;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+/* ── Buttons ── */
+
 .button {
-    -fx-background-color: #3a5fcd;
-    -fx-text-fill: white;
-    -fx-background-radius: 4;
-    -fx-padding: 6 16;
+    -fx-background-color: #89b4fa;
+    -fx-text-fill: #1e1e2e;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 6 18;
     -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(137, 180, 250, 0.3), 8, 0, 0, 2);
 }
 
 .button:hover {
-    -fx-background-color: #4a6fdd;
+    -fx-background-color: #b4d0fb;
+    -fx-effect: dropshadow(gaussian, rgba(137, 180, 250, 0.5), 12, 0, 0, 3);
 }
 
 .button:pressed {
-    -fx-background-color: #2a4fbd;
+    -fx-background-color: #74a8f7;
+    -fx-effect: dropshadow(gaussian, rgba(137, 180, 250, 0.2), 4, 0, 0, 1);
 }
 
-/* Choice box */
+.button:disabled {
+    -fx-background-color: #45475a;
+    -fx-text-fill: #6c7086;
+    -fx-effect: none;
+    -fx-opacity: 0.7;
+}
+
+/* Sort button accent */
+#SortButton {
+    -fx-background-color: #a6e3a1;
+    -fx-text-fill: #1e1e2e;
+    -fx-effect: dropshadow(gaussian, rgba(166, 227, 161, 0.3), 8, 0, 0, 2);
+}
+
+#SortButton:hover {
+    -fx-background-color: #c4eec0;
+    -fx-effect: dropshadow(gaussian, rgba(166, 227, 161, 0.5), 12, 0, 0, 3);
+}
+
+#SortButton:pressed {
+    -fx-background-color: #8bd987;
+}
+
+/* Stop button danger */
+#StopButton {
+    -fx-background-color: #f38ba8;
+    -fx-text-fill: #1e1e2e;
+    -fx-effect: dropshadow(gaussian, rgba(243, 139, 168, 0.3), 8, 0, 0, 2);
+}
+
+#StopButton:hover {
+    -fx-background-color: #f7a8be;
+    -fx-effect: dropshadow(gaussian, rgba(243, 139, 168, 0.5), 12, 0, 0, 3);
+}
+
+#StopButton:pressed {
+    -fx-background-color: #e66e94;
+}
+
+/* ── Choice Box ── */
+
 .choice-box {
-    -fx-background-color: #3c3c3c;
-    -fx-text-fill: #d4d4d4;
-    -fx-background-radius: 4;
+    -fx-background-color: #313244;
+    -fx-text-fill: #cdd6f4;
+    -fx-background-radius: 6;
+    -fx-border-color: #45475a;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+    -fx-cursor: hand;
 }
 
-/* Slider */
+.choice-box:hover {
+    -fx-background-color: #45475a;
+    -fx-border-color: #89b4fa;
+}
+
+.choice-box .label {
+    -fx-text-fill: #cdd6f4;
+}
+
+.choice-box .menu-item .label {
+    -fx-text-fill: #cdd6f4;
+}
+
+.choice-box .context-menu {
+    -fx-background-color: #313244;
+    -fx-border-color: #45475a;
+}
+
+.choice-box .menu-item:focused {
+    -fx-background-color: #45475a;
+}
+
+/* ── Spinner ── */
+
+.spinner {
+    -fx-background-color: transparent;
+}
+
+.spinner .text-field {
+    -fx-background-color: #313244;
+    -fx-text-fill: #cdd6f4;
+    -fx-border-color: #45475a;
+    -fx-border-radius: 6 0 0 6;
+    -fx-background-radius: 6 0 0 6;
+    -fx-font-weight: bold;
+}
+
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button {
+    -fx-background-color: #45475a;
+    -fx-border-color: #585b70;
+    -fx-cursor: hand;
+}
+
+.spinner .increment-arrow-button:hover,
+.spinner .decrement-arrow-button:hover {
+    -fx-background-color: #585b70;
+}
+
+.spinner .increment-arrow-button .increment-arrow,
+.spinner .decrement-arrow-button .decrement-arrow {
+    -fx-background-color: #cdd6f4;
+}
+
+/* ── Slider ── */
+
 .slider .track {
-    -fx-background-color: #555;
+    -fx-background-color: #45475a;
+    -fx-background-radius: 4;
+    -fx-pref-height: 6;
 }
 
 .slider .thumb {
-    -fx-background-color: #3a5fcd;
+    -fx-background-color: #89b4fa;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(137, 180, 250, 0.4), 6, 0, 0, 1);
+    -fx-cursor: hand;
 }
 
-/* Checkbox */
+.slider .thumb:hover {
+    -fx-background-color: #b4d0fb;
+    -fx-effect: dropshadow(gaussian, rgba(137, 180, 250, 0.6), 8, 0, 0, 2);
+}
+
+.slider .axis .tick-mark {
+    -fx-stroke: #585b70;
+}
+
+.slider .axis .tick-label {
+    -fx-text-fill: #a6adc8;
+    -fx-font-size: 10px;
+}
+
+/* ── Checkbox ── */
+
 .check-box {
-    -fx-text-fill: #d4d4d4;
+    -fx-text-fill: #cdd6f4;
+    -fx-cursor: hand;
 }
 
 .check-box .box {
-    -fx-background-color: #3c3c3c;
-    -fx-border-color: #555;
-    -fx-border-radius: 2;
+    -fx-background-color: #313244;
+    -fx-border-color: #45475a;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 3;
+}
+
+.check-box:hover .box {
+    -fx-border-color: #89b4fa;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #89b4fa;
+    -fx-border-color: #89b4fa;
 }
 
 .check-box:selected .mark {
-    -fx-background-color: white;
+    -fx-background-color: #1e1e2e;
+}
+
+/* ── Progress Indicator ── */
+
+.progress-indicator {
+    -fx-progress-color: #89b4fa;
+}
+
+.progress-indicator .indicator {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.progress-indicator .percentage {
+    -fx-text-fill: #cdd6f4;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+}
+
+.progress-indicator .track {
+    -fx-background-color: #45475a;
+}
+
+/* Determinate bar style */
+.progress-indicator .indicator .segment {
+    -fx-background-color: #89b4fa;
+}
+
+.progress-indicator .indicator .dot {
+    -fx-background-color: #89b4fa;
+}
+
+/* ── TableView (Comparison Results) ── */
+
+.table-view {
+    -fx-background-color: #181825;
+    -fx-border-color: #313244;
+    -fx-border-width: 1;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #1e1e2e;
+}
+
+.table-view .column-header {
+    -fx-background-color: #1e1e2e;
+    -fx-border-color: #313244;
+    -fx-border-width: 0 1 1 0;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #89b4fa;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: #181825;
+    -fx-border-color: transparent;
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: #1e1e2e;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #313244;
+}
+
+.table-view .table-row-cell:hover {
+    -fx-background-color: #45475a;
+}
+
+.table-view .table-cell {
+    -fx-text-fill: #cdd6f4;
+    -fx-alignment: CENTER;
+    -fx-font-size: 12px;
+}
+
+.table-view .table-row-cell:selected .table-cell {
+    -fx-text-fill: #cdd6f4;
+}
+
+.table-view .filler {
+    -fx-background-color: #1e1e2e;
+}
+
+.table-view .column-drag-header {
+    -fx-background-color: #45475a;
+}
+
+/* ── Scrollbar (global) ── */
+
+.scroll-bar {
+    -fx-background-color: #181825;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #45475a;
+    -fx-background-radius: 4;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #585b70;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-shape: "";
+}
+
+/* ── Tooltip ── */
+
+.tooltip {
+    -fx-background-color: #313244;
+    -fx-text-fill: #cdd6f4;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-font-size: 12px;
+    -fx-padding: 6 10;
 }
