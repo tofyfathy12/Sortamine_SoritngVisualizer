@@ -66,6 +66,8 @@ public class Controller implements Initializable {
     @FXML
     private Label AlgorithmLabel;
     @FXML
+    private Label ChosenAlgorithmLabel;
+    @FXML
     private Label RunTimeValueLabel;
     @FXML
     private Label ComparisonsValueLabel;
@@ -195,6 +197,8 @@ public class Controller implements Initializable {
         filesChoiceBox.setDisable(!visualizeMode);
         selectedFileLabel.setVisible(visualizeMode);
         selectedFileValueLabel.setVisible(visualizeMode);
+        ChosenAlgorithmLabel.setVisible(visualizeMode);
+        AlgorithmLabel.setVisible(visualizeMode);
         SpeedSlider.setDisable(!visualizeMode);
         AlgorithmListView.setDisable(!visualizeMode);
         StopButton.setDisable(!visualizeMode);
