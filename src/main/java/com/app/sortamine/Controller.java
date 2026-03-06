@@ -40,6 +40,10 @@ public class Controller implements Initializable {
     @FXML
     private Label selectedFileValueLabel;
     @FXML
+    private Label selectedFileLabel;
+    @FXML
+    private Button AddFileButton;
+    @FXML
     private Pane CenterPane;
     @FXML
     private Slider SpeedSlider;
@@ -83,7 +87,7 @@ public class Controller implements Initializable {
 
     private int[] fileArray = null;
     private String fileName = null;
-    private List<File> files = new ArrayList<>();
+    private final List<File> files = new ArrayList<>();
 
     private TableView<ComparisonResult> resultsTable;
     private final ObservableList<ComparisonResult> comparisonResults = FXCollections.observableArrayList();
@@ -118,7 +122,7 @@ public class Controller implements Initializable {
                     if (visualizeMode && arr.length <= 100) {
                         this.bars = BarGenerator.generateBars(this.arr, CenterPane);
                     }
-                    this.selectedFileValueLabel.setText(fileName + " (" + fileArray.length + " elements)");
+                    this.selectedFileValueLabel.setText(fileName + "\n(" + fileArray.length + " elements)");
                 } catch (IOException | NumberFormatException e) {
                     this.selectedFileValueLabel.setText("Error: " + e.getMessage());
                 }
@@ -187,6 +191,10 @@ public class Controller implements Initializable {
         setSpinner();
 
         GenerateButton.setDisable(!visualizeMode);
+        AddFileButton.setDisable(!visualizeMode);
+        filesChoiceBox.setDisable(!visualizeMode);
+        selectedFileLabel.setVisible(visualizeMode);
+        selectedFileValueLabel.setVisible(visualizeMode);
         SpeedSlider.setDisable(!visualizeMode);
         AlgorithmListView.setDisable(!visualizeMode);
         StopButton.setDisable(!visualizeMode);
@@ -248,9 +256,9 @@ public class Controller implements Initializable {
                 if (visualizeMode && arr.length <= 100) {
                     this.bars = BarGenerator.generateBars(this.arr, CenterPane);
                 }
-                AlgorithmLabel.setText("File: " + fileName + " (" + fileArray.length + " elements)");
+                selectedFileValueLabel.setText(fileName + "\n(" + fileArray.length + " elements)");
             } catch (IOException | NumberFormatException e) {
-                AlgorithmLabel.setText("Error: " + e.getMessage());
+                selectedFileValueLabel.setText("Error: " + e.getMessage());
                 fileArray = null;
                 fileName = null;
             }
@@ -397,7 +405,6 @@ public class Controller implements Initializable {
                 SizeSpinner.getValue(),
                 NumberOfRunsSpinner.getValue(),
                 ArrayTypeChoiceBox.getValue(),
-                fileArray, fileName,
                 SortingProgressIndicator,
                 comparisonResults,
                 running -> isSorting = running,

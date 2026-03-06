@@ -59,13 +59,11 @@ public class ComparisonService {
     }
 
     public static void runComparison(int arraySize, int numberOfRuns, ArrayType arrayType,
-            int[] fileArray, String fileName, ProgressIndicator progressIndicator,
+            ProgressIndicator progressIndicator,
             ObservableList<ComparisonResult> results, Consumer<Boolean> onSortingStateChange,
             java.util.function.BooleanSupplier isSortingCheck) {
 
-        boolean useFile = (fileArray != null && fileName != null);
-        String arrayTypeName = useFile ? fileName : arrayType.toString();
-
+        String arrayTypeName = arrayType.toString();
         StrategyType[] allAlgorithms = StrategyType.values();
         int totalSteps = allAlgorithms.length * numberOfRuns;
 
@@ -85,21 +83,13 @@ public class ComparisonService {
                     int comparisons = 0;
                     int interchanges = 0;
 
-                    int[] baseArray;
-                    if (useFile) {
-                        baseArray = Arrays.copyOf(fileArray, fileArray.length);
-                    } else {
-                        baseArray = arrayType.getGenerator().generate(arraySize, arraySize);
-                    }
-
                     for (int run = 0; run < numberOfRuns; run++) {
                         if (!isSortingCheck.getAsBoolean())
                             break;
 
-                        int[] arrayCopy = Arrays.copyOf(baseArray, baseArray.length);
-
+                        int[] array = arrayType.getGenerator().generate(arraySize, arraySize);
                         long startTime = System.nanoTime();
-                        strategy.generateSortHistory(arrayCopy);
+                        strategy.generateSortHistory(array);
                         long endTime = System.nanoTime();
 
                         long runtime = endTime - startTime;
@@ -119,12 +109,12 @@ public class ComparisonService {
 
                     ComparisonResult result = new ComparisonResult(
                             strategy.getAlgorithmName(),
-                            useFile ? baseArray.length : arraySize,
+                            arraySize,
                             arrayTypeName,
                             numberOfRuns,
-                            avgRuntime / 1_000_000,
-                            minRuntime / 1_000_000,
-                            maxRuntime / 1_000_000,
+                            ((double) Math.round(((double) avgRuntime * 1000 / 1_000_000)) / 1000),
+                            ((double) Math.round(((double) minRuntime * 1000 / 1_000_000)) / 1000),
+                            ((double) Math.round(((double) maxRuntime * 1000 / 1_000_000)) / 1000),
                             comparisons,
                             interchanges);
 

@@ -50,8 +50,8 @@
             <Label fx:id="RunTimeValueLabel" alignment="CENTER" layoutX="113.0" layoutY="47.0" prefHeight="18.0" prefWidth="46.0" />
             <Label fx:id="ComparisonsValueLabel" alignment="CENTER" layoutX="342.0" layoutY="47.0" prefHeight="18.0" prefWidth="58.0" />
             <Label fx:id="InterchangesValueLabel" alignment="CENTER" layoutX="587.0" layoutY="47.0" prefHeight="18.0" prefWidth="58.0" />
-            <Label fx:id="ChosenAlgorithmLabel" alignment="CENTER" layoutX="35.0" layoutY="14.0" text="Selected Algorithm: " />
-            <Label fx:id="AlgorithmLabel" layoutX="142.0" layoutY="13.0" prefHeight="18.0" prefWidth="84.0" />
+            <Label fx:id="ChosenAlgorithmLabel" alignment="CENTER" layoutX="16.0" layoutY="9.0" prefHeight="23.0" prefWidth="126.0" text="Selected Algorithm: " />
+            <Label fx:id="AlgorithmLabel" layoutX="154.0" layoutY="13.0" prefHeight="18.0" prefWidth="105.0" />
             <ProgressIndicator fx:id="SortingProgressIndicator" layoutX="758.0" layoutY="46.0" prefHeight="66.0" prefWidth="34.0" progress="0.0">
                <opaqueInsets>
                   <Insets />
@@ -67,10 +67,10 @@
             <Button fx:id="StopButton" alignment="CENTER" layoutX="40.0" layoutY="60.0" mnemonicParsing="false" onAction="#stop" prefHeight="26.0" prefWidth="117.0" text="Stop" />
             <Label alignment="CENTER" layoutX="10.0" layoutY="103.0" prefHeight="9.0" prefWidth="57.0" text="Runs:" />
             <Spinner fx:id="NumberOfRunsSpinner" editable="true" layoutX="68.0" layoutY="99.0" prefWidth="110.0" />
-            <Button alignment="CENTER" layoutX="41.0" layoutY="147.0" mnemonicParsing="false" onAction="#loadFile" prefHeight="26.0" prefWidth="117.0" text="Add File" />
+            <Button fx:id="AddFileButton" alignment="CENTER" layoutX="41.0" layoutY="147.0" mnemonicParsing="false" onAction="#loadFile" prefHeight="26.0" prefWidth="117.0" text="Add File" />
             <ChoiceBox fx:id="filesChoiceBox" layoutX="25.0" layoutY="218.0" prefWidth="150.0" />
             <Label fx:id="selectedFileLabel" alignment="CENTER" layoutX="28.0" layoutY="275.0" prefHeight="18.0" prefWidth="132.0" text="selected File:" />
-            <Label fx:id="selectedFileValueLabel" alignment="CENTER" layoutX="10.0" layoutY="293.0" prefHeight="22.0" prefWidth="178.0" />
+            <Label fx:id="selectedFileValueLabel" alignment="CENTER" layoutX="10.0" layoutY="293.0" prefHeight="38.0" prefWidth="178.0" />
          </children>
       </AnchorPane>
    </right>

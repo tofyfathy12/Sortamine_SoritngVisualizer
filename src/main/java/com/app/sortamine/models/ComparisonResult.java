@@ -7,22 +7,22 @@ public class ComparisonResult {
     private final SimpleIntegerProperty arraySize;
     private final SimpleStringProperty arrayType;
     private final SimpleIntegerProperty numberOfRuns;
-    private final SimpleLongProperty averageRuntime;
-    private final SimpleLongProperty minRuntime;
-    private final SimpleLongProperty maxRuntime;
+    private final SimpleDoubleProperty averageRuntime;
+    private final SimpleDoubleProperty minRuntime;
+    private final SimpleDoubleProperty maxRuntime;
     private final SimpleIntegerProperty comparisons;
     private final SimpleIntegerProperty interchanges;
 
     public ComparisonResult(String algorithmName, int arraySize, String arrayType,
-            int numberOfRuns, long averageRuntime, long minRuntime,
-            long maxRuntime, int comparisons, int interchanges) {
+                            int numberOfRuns, double averageRuntime, double minRuntime,
+                            double maxRuntime, int comparisons, int interchanges) {
         this.algorithmName = new SimpleStringProperty(algorithmName);
         this.arraySize = new SimpleIntegerProperty(arraySize);
         this.arrayType = new SimpleStringProperty(arrayType);
         this.numberOfRuns = new SimpleIntegerProperty(numberOfRuns);
-        this.averageRuntime = new SimpleLongProperty(averageRuntime);
-        this.minRuntime = new SimpleLongProperty(minRuntime);
-        this.maxRuntime = new SimpleLongProperty(maxRuntime);
+        this.averageRuntime = new SimpleDoubleProperty(averageRuntime);
+        this.minRuntime = new SimpleDoubleProperty(minRuntime);
+        this.maxRuntime = new SimpleDoubleProperty(maxRuntime);
         this.comparisons = new SimpleIntegerProperty(comparisons);
         this.interchanges = new SimpleIntegerProperty(interchanges);
     }
@@ -59,27 +59,27 @@ public class ComparisonResult {
         return numberOfRuns;
     }
 
-    public long getAverageRuntime() {
+    public double getAverageRuntime() {
         return averageRuntime.get();
     }
 
-    public SimpleLongProperty averageRuntimeProperty() {
+    public SimpleDoubleProperty averageRuntimeProperty() {
         return averageRuntime;
     }
 
-    public long getMinRuntime() {
+    public double getMinRuntime() {
         return minRuntime.get();
     }
 
-    public SimpleLongProperty minRuntimeProperty() {
+    public SimpleDoubleProperty minRuntimeProperty() {
         return minRuntime;
     }
 
-    public long getMaxRuntime() {
+    public double getMaxRuntime() {
         return maxRuntime.get();
     }
 
-    public SimpleLongProperty maxRuntimeProperty() {
+    public SimpleDoubleProperty maxRuntimeProperty() {
         return maxRuntime;
     }
 
