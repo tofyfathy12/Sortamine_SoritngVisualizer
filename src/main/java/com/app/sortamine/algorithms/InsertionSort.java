@@ -35,7 +35,7 @@ public class InsertionSort implements SortingStrategy {
             int j = i - 1;
             while (j >= 0 && data[j] > key) {
                 comparisons++;
-                sortingEvents.add(new CompareEvent(j, i));
+                sortingEvents.add(new CompareEvent(j, j + 1));
                 data[j + 1] = data[j];
                 // sortingEvents.add(new OverwriteEvent(j + 1, data[j]));
                 sortingEvents.add(new SwapEvent(j + 1, j));
@@ -44,7 +44,7 @@ public class InsertionSort implements SortingStrategy {
             }
             if (j >= 0) {
                 comparisons++;
-                sortingEvents.add(new CompareEvent(j, i)); // when the while check fails
+                sortingEvents.add(new CompareEvent(j, j + 1)); // when the while check fails
             }
             data[j + 1] = key;
             // if (j + 1 != i) {
