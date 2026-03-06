@@ -10,12 +10,12 @@ public class ComparisonResult {
     private final SimpleDoubleProperty averageRuntime;
     private final SimpleDoubleProperty minRuntime;
     private final SimpleDoubleProperty maxRuntime;
-    private final SimpleIntegerProperty comparisons;
-    private final SimpleIntegerProperty interchanges;
+    private final SimpleLongProperty comparisons;
+    private final SimpleLongProperty interchanges;
 
     public ComparisonResult(String algorithmName, int arraySize, String arrayType,
-                            int numberOfRuns, double averageRuntime, double minRuntime,
-                            double maxRuntime, int comparisons, int interchanges) {
+            int numberOfRuns, double averageRuntime, double minRuntime,
+            double maxRuntime, long comparisons, long interchanges) {
         this.algorithmName = new SimpleStringProperty(algorithmName);
         this.arraySize = new SimpleIntegerProperty(arraySize);
         this.arrayType = new SimpleStringProperty(arrayType);
@@ -23,8 +23,8 @@ public class ComparisonResult {
         this.averageRuntime = new SimpleDoubleProperty(averageRuntime);
         this.minRuntime = new SimpleDoubleProperty(minRuntime);
         this.maxRuntime = new SimpleDoubleProperty(maxRuntime);
-        this.comparisons = new SimpleIntegerProperty(comparisons);
-        this.interchanges = new SimpleIntegerProperty(interchanges);
+        this.comparisons = new SimpleLongProperty(comparisons);
+        this.interchanges = new SimpleLongProperty(interchanges);
     }
 
     public String getAlgorithmName() {
@@ -83,19 +83,19 @@ public class ComparisonResult {
         return maxRuntime;
     }
 
-    public int getComparisons() {
+    public long getComparisons() {
         return comparisons.get();
     }
 
-    public SimpleIntegerProperty comparisonsProperty() {
+    public SimpleLongProperty comparisonsProperty() {
         return comparisons;
     }
 
-    public int getInterchanges() {
+    public long getInterchanges() {
         return interchanges.get();
     }
 
-    public SimpleIntegerProperty interchangesProperty() {
+    public SimpleLongProperty interchangesProperty() {
         return interchanges;
     }
 }

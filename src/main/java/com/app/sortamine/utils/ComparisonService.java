@@ -45,10 +45,10 @@ public class ComparisonService {
         TableColumn<ComparisonResult, Long> maxCol = new TableColumn<>("Max Runtime (ms)");
         maxCol.setCellValueFactory(new PropertyValueFactory<>("maxRuntime"));
 
-        TableColumn<ComparisonResult, Integer> compCol = new TableColumn<>("Comparisons");
+        TableColumn<ComparisonResult, Long> compCol = new TableColumn<>("Avg Comparisons");
         compCol.setCellValueFactory(new PropertyValueFactory<>("comparisons"));
 
-        TableColumn<ComparisonResult, Integer> interCol = new TableColumn<>("Interchanges");
+        TableColumn<ComparisonResult, Long> interCol = new TableColumn<>("Avg Interchanges");
         interCol.setCellValueFactory(new PropertyValueFactory<>("interchanges"));
 
         table.getColumns().addAll(algorithmCol, sizeCol, typeCol, runsCol,
@@ -80,8 +80,8 @@ public class ComparisonService {
                     long totalRuntime = 0;
                     long minRuntime = Long.MAX_VALUE;
                     long maxRuntime = Long.MIN_VALUE;
-                    int comparisons = 0;
-                    int interchanges = 0;
+                    long comparisons = 0;
+                    long interchanges = 0;
 
                     for (int run = 0; run < numberOfRuns; run++) {
                         if (!isSortingCheck.getAsBoolean())
@@ -97,8 +97,8 @@ public class ComparisonService {
                         minRuntime = Math.min(minRuntime, runtime);
                         maxRuntime = Math.max(maxRuntime, runtime);
 
-                        comparisons = strategy.getComparisons();
-                        interchanges = strategy.getInterchanges();
+                        comparisons += strategy.getComparisons();
+                        interchanges += strategy.getInterchanges();
 
                         stepsDone++;
                         final int currentStep = stepsDone;
@@ -106,6 +106,8 @@ public class ComparisonService {
                     }
 
                     long avgRuntime = totalRuntime / numberOfRuns;
+                    long avgComparisons = comparisons / numberOfRuns;
+                    long avgInterchanges = interchanges / numberOfRuns;
 
                     ComparisonResult result = new ComparisonResult(
                             strategy.getAlgorithmName(),
@@ -115,8 +117,8 @@ public class ComparisonService {
                             ((double) Math.round(((double) avgRuntime * 1000 / 1_000_000)) / 1000),
                             ((double) Math.round(((double) minRuntime * 1000 / 1_000_000)) / 1000),
                             ((double) Math.round(((double) maxRuntime * 1000 / 1_000_000)) / 1000),
-                            comparisons,
-                            interchanges);
+                            avgComparisons,
+                            avgInterchanges);
 
                     Platform.runLater(() -> results.add(result));
                 }
@@ -149,17 +151,17 @@ public class ComparisonService {
         runtimeSeries.setName("Avg Runtime (ms)");
 
         XYChart.Series<String, Number> compSeries = new XYChart.Series<>();
-        compSeries.setName("Comparisons (÷1000)");
+        compSeries.setName("Avg Comparisons (÷10000)");
 
         XYChart.Series<String, Number> interSeries = new XYChart.Series<>();
-        interSeries.setName("Interchanges (÷1000)");
+        interSeries.setName("Avg Interchanges (÷10000)");
 
         int startIndex = Math.max(0, comparisonResults.size() - StrategyType.values().length);
         for (int i = startIndex; i < comparisonResults.size(); i++) {
             ComparisonResult r = comparisonResults.get(i);
             runtimeSeries.getData().add(new XYChart.Data<>(r.getAlgorithmName(), r.getAverageRuntime()));
-            compSeries.getData().add(new XYChart.Data<>(r.getAlgorithmName(), r.getComparisons() / 1000.0));
-            interSeries.getData().add(new XYChart.Data<>(r.getAlgorithmName(), r.getInterchanges() / 1000.0));
+            compSeries.getData().add(new XYChart.Data<>(r.getAlgorithmName(), r.getComparisons() / 10000.0));
+            interSeries.getData().add(new XYChart.Data<>(r.getAlgorithmName(), r.getInterchanges() / 10000.0));
         }
 
         runtimeChart.getData().addAll(runtimeSeries, compSeries, interSeries);
