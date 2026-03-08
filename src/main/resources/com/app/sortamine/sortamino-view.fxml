@@ -64,14 +64,16 @@
    <right>
       <AnchorPane fx:id="RightAnchorPane" prefHeight="418.0" prefWidth="197.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="SortButton" alignment="CENTER" layoutX="41.0" layoutY="25.0" mnemonicParsing="false" onAction="#sort" prefHeight="26.0" prefWidth="117.0" text="Sort" />
-            <Button fx:id="StopButton" alignment="CENTER" layoutX="40.0" layoutY="60.0" mnemonicParsing="false" onAction="#stop" prefHeight="26.0" prefWidth="117.0" text="Stop" />
-            <Label alignment="CENTER" layoutX="10.0" layoutY="103.0" prefHeight="9.0" prefWidth="57.0" text="Runs:" />
-            <Spinner fx:id="NumberOfRunsSpinner" editable="true" layoutX="68.0" layoutY="99.0" prefWidth="110.0" />
-            <Button fx:id="AddFileButton" alignment="CENTER" layoutX="41.0" layoutY="147.0" mnemonicParsing="false" onAction="#loadFile" prefHeight="26.0" prefWidth="117.0" text="Add File" />
-            <ChoiceBox fx:id="filesChoiceBox" layoutX="25.0" layoutY="218.0" prefWidth="150.0" />
-            <Label fx:id="selectedFileLabel" alignment="CENTER" layoutX="28.0" layoutY="275.0" prefHeight="18.0" prefWidth="132.0" text="selected File:" />
-            <Label fx:id="selectedFileValueLabel" alignment="CENTER" layoutX="10.0" layoutY="293.0" prefHeight="38.0" prefWidth="178.0" />
+            <Button fx:id="SortButton" alignment="CENTER" layoutX="40.0" layoutY="14.0" mnemonicParsing="false" onAction="#sort" prefHeight="26.0" prefWidth="117.0" text="Sort" />
+            <Button fx:id="StopButton" alignment="CENTER" layoutX="40.0" layoutY="46.0" mnemonicParsing="false" onAction="#stop" prefHeight="26.0" prefWidth="117.0" text="Stop" />
+            <Label alignment="CENTER" layoutX="12.0" layoutY="90.0" prefHeight="9.0" prefWidth="57.0" text="Runs:" />
+            <Spinner fx:id="NumberOfRunsSpinner" editable="true" layoutX="70.0" layoutY="86.0" prefWidth="110.0" />
+            <Button fx:id="AddFileButton" alignment="CENTER" layoutX="40.0" layoutY="120.0" mnemonicParsing="false" onAction="#loadFile" prefHeight="26.0" prefWidth="117.0" text="Add File" />
+            <ChoiceBox fx:id="filesChoiceBox" layoutX="24.0" layoutY="146.0" prefWidth="150.0" />
+            <Label fx:id="selectedFileLabel" alignment="CENTER" layoutX="33.0" layoutY="172.0" prefHeight="18.0" prefWidth="132.0" text="selected File:" />
+            <Label fx:id="selectedFileValueLabel" alignment="CENTER" layoutX="10.0" layoutY="191.0" prefHeight="38.0" prefWidth="178.0" />
+            <Label fx:id="NaryLabel" alignment="CENTER" layoutX="9.0" layoutY="231.0" prefHeight="21.0" prefWidth="62.0" text="N (N-ary):" />
+            <Spinner fx:id="NarySpinner" editable="true" layoutX="73.0" layoutY="229.0" prefHeight="26.0" prefWidth="110.0" />
          </children>
       </AnchorPane>
    </right>

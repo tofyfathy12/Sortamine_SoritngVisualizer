@@ -17,7 +17,7 @@ public class HeapSort implements SortingStrategy {
     private long comparisons = 0;
     private long interchanges = 0;
 
-    private List<SortingEvent> sortingEvents = new ArrayList<>();
+    private final List<SortingEvent> sortingEvents = new ArrayList<>();
 
     private HeapSort() {
     }
@@ -70,7 +70,7 @@ public class HeapSort implements SortingStrategy {
         return this.arr[0];
     }
 
-    public void buildMaxHeap() {
+    private void buildMaxHeap() {
         int i = this.arr.length / 2 - 1;
         while (i >= 0) {
             maxHeapify(i);

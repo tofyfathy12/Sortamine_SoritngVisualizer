@@ -75,6 +75,10 @@ public class Controller implements Initializable {
     private Label InterchangesValueLabel;
     @FXML
     private ProgressIndicator SortingProgressIndicator;
+    @FXML
+    private Label NaryLabel;
+    @FXML
+    private Spinner<Integer> NarySpinner;
 
     private volatile int speedValue;
     private volatile int[] arr;
@@ -153,8 +157,10 @@ public class Controller implements Initializable {
 
         AlgorithmListView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
-                sortingStrategy = newVal.getStrategy();
+                sortingStrategy = (newVal == StrategyType.N_ARY_HEAP_SORT) ? newVal.getStrategy(NarySpinner.getValue()) : newVal.getStrategy();
                 AlgorithmLabel.setText(sortingStrategy.getAlgorithmName());
+                NaryLabel.setVisible(newVal == StrategyType.N_ARY_HEAP_SORT);
+                NarySpinner.setVisible(newVal == StrategyType.N_ARY_HEAP_SORT);
             }
         });
     }
@@ -165,6 +171,12 @@ public class Controller implements Initializable {
         setSpinner();
         NumberOfRunsSpinner.setValueFactory(
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 5));
+
+        NarySpinner.setValueFactory(
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(3, 10, 3));
+        NarySpinner.setVisible(this.sortingStrategy instanceof NaryHeapSort);
+        NaryLabel.setVisible(this.sortingStrategy instanceof NaryHeapSort);
+
     }
 
     private void initializeResizeListeners() {
@@ -408,6 +420,7 @@ public class Controller implements Initializable {
         ComparisonService.runComparison(
                 SizeSpinner.getValue(),
                 NumberOfRunsSpinner.getValue(),
+                NarySpinner.getValue(),
                 ArrayTypeChoiceBox.getValue(),
                 SortingProgressIndicator,
                 comparisonResults,

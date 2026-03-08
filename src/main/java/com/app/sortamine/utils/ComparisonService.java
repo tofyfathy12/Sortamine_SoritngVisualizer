@@ -58,7 +58,7 @@ public class ComparisonService {
         return table;
     }
 
-    public static void runComparison(int arraySize, int numberOfRuns, ArrayType arrayType,
+    public static void runComparison(int arraySize, int numberOfRuns, int n_Nary, ArrayType arrayType,
             ProgressIndicator progressIndicator,
             ObservableList<ComparisonResult> results, Consumer<Boolean> onSortingStateChange,
             java.util.function.BooleanSupplier isSortingCheck) {
@@ -75,7 +75,7 @@ public class ComparisonService {
                     if (!isSortingCheck.getAsBoolean())
                         break;
 
-                    SortingStrategy strategy = strategyType.getStrategy();
+                    SortingStrategy strategy = (strategyType == StrategyType.N_ARY_HEAP_SORT) ? strategyType.getStrategy(n_Nary) : strategyType.getStrategy();
 
                     long totalRuntime = 0;
                     long minRuntime = Long.MAX_VALUE;
