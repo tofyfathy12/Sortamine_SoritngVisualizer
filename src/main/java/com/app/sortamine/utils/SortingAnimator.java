@@ -8,7 +8,7 @@ import javafx.util.Duration;
 public class SortingAnimator {
 
     public static long getDurationMillis(int speedValue) {
-        return 4000 / (speedValue * 5L);
+        return 5000 / (speedValue * 5L);
     }
 
     public static double slotXPosition(double paneWidth, int arrayLength, int index) {

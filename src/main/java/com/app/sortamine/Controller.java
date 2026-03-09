@@ -157,6 +157,7 @@ public class Controller implements Initializable {
 
         AlgorithmListView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
+//                System.out.println("Spinner value: " + NarySpinner.getValue()); //debugging
                 sortingStrategy = (newVal == StrategyType.N_ARY_HEAP_SORT) ? newVal.getStrategy(NarySpinner.getValue()) : newVal.getStrategy();
                 AlgorithmLabel.setText(sortingStrategy.getAlgorithmName());
                 NaryLabel.setVisible(newVal == StrategyType.N_ARY_HEAP_SORT);
@@ -175,6 +176,13 @@ public class Controller implements Initializable {
         NarySpinner.setValueFactory(
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(3, 10, 3));
         NarySpinner.setVisible(this.sortingStrategy instanceof NaryHeapSort);
+        NarySpinner.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                if (this.sortingStrategy instanceof NaryHeapSort) {
+                    this.sortingStrategy = new NaryHeapSort(newVal);
+                }
+            }
+        });
         NaryLabel.setVisible(this.sortingStrategy instanceof NaryHeapSort);
 
     }
