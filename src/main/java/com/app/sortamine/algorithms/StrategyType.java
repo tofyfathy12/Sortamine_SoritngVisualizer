@@ -47,6 +47,12 @@ public enum StrategyType {
         public SortingStrategy getStrategy(int n) {
             return new NaryHeapSort(n);
         }
+    },
+    SHELL_SORT("Shell Sort") {
+        @Override
+        public SortingStrategy getStrategy() {
+            return ShellSort.getInstance();
+        }
     };
 
     private final String displayName;

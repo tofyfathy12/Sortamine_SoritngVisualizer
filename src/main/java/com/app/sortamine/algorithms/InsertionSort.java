@@ -37,7 +37,7 @@ public class InsertionSort implements SortingStrategy {
                 comparisons++;
                 sortingEvents.add(new CompareEvent(j, j + 1));
                 data[j + 1] = data[j];
-                sortingEvents.add(new SwapEvent(j + 1, j));
+                sortingEvents.add(new SwapEvent(j, j + 1));
                 interchanges++;
                 j--;
             }
