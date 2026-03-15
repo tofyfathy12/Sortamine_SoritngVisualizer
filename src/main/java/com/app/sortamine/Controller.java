@@ -397,6 +397,16 @@ public class Controller implements Initializable {
                             anim.play();
                         });
                         latch.await();
+                    } else if (sortingEvent instanceof MaxSelectionEvent maxSelection) {
+                        CountDownLatch latch = new CountDownLatch(1);
+                        Platform.runLater(() -> {
+                            Animation anim = SortingAnimator.createSingleColorFlashAnimation(
+                                    bars[maxSelection.maxIndex],
+                                    Color.LIMEGREEN, Color.STEELBLUE, speedValue);
+                            anim.setOnFinished(e -> latch.countDown());
+                            anim.play();
+                        });
+                        latch.await();
                     }
 
                     progressCounter++;

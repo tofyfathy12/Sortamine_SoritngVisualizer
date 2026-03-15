@@ -53,6 +53,12 @@ public enum StrategyType {
         public SortingStrategy getStrategy() {
             return ShellSort.getInstance();
         }
+    },
+    COUNTING_SORT("Counting Sort") {
+        @Override
+        public SortingStrategy getStrategy() {
+            return CountingSort.getInstance();
+        }
     };
 
     private final String displayName;
