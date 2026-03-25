@@ -6,4 +6,5 @@ public enum SortingEventType {
     OVERWRITE,
     MIN_SELECTION, // to be colored when visualizing
     MAX_SELECTION, // to be colored when visualizing
+    BLOCK,
 }

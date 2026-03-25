@@ -53,23 +53,6 @@ public class HeapSort implements SortingStrategy {
         return this.interchanges;
     }
 
-    public int getHeapSize() {
-        return this.heapSize;
-    }
-
-    public int extractMax() {
-        int maxNum = arr[0];
-        arr[0] = arr[this.heapSize - 1];
-        arr[this.heapSize - 1] = maxNum;
-        this.heapSize -= 1;
-        maxHeapify(0);
-        return maxNum;
-    }
-
-    public int peek() {
-        return this.arr[0];
-    }
-
     private void buildMaxHeap() {
         int i = this.arr.length / 2 - 1;
         while (i >= 0) {
@@ -84,11 +67,11 @@ public class HeapSort implements SortingStrategy {
             int r = 2 * (index + 1);
 
             int largest = index;
-            if (l < this.heapSize && this.arr[l] > this.arr[index])
+            if (l < this.heapSize && this.arr[l] >= this.arr[index])
                 largest = l;
 
             int temp = largest;
-            if (r < this.heapSize && this.arr[r] > this.arr[largest])
+            if (r < this.heapSize && this.arr[r] >= this.arr[largest])
                 largest = r;
 
             if (l < this.heapSize) {

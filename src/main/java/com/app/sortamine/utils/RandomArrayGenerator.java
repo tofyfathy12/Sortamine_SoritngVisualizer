@@ -5,7 +5,7 @@ import java.util.Random;
 public class RandomArrayGenerator implements ArrayGenerator {
     private static RandomArrayGenerator instance;
 
-    private Random random = new Random();
+    private final Random random = new Random();
 
     private RandomArrayGenerator() {
     }

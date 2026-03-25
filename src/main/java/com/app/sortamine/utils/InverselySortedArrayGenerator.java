@@ -5,7 +5,7 @@ import java.util.Random;
 public class InverselySortedArrayGenerator implements ArrayGenerator {
     private static InverselySortedArrayGenerator instance;
 
-    private Random random = new Random();
+    private final Random random = new Random();
 
     private InverselySortedArrayGenerator() {
     }

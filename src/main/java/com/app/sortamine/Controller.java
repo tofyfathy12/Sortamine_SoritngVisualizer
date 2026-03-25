@@ -378,6 +378,7 @@ public class Controller implements Initializable {
                         CountDownLatch latch = new CountDownLatch(1);
                         Platform.runLater(() -> {
                             arr[overwrite.targetIndex] = overwrite.newValue;
+                            bars[overwrite.targetIndex].setFill(Color.STEELBLUE);
                             Animation anim = SortingAnimator.createHeightChangeAnimation(
                                     bars[overwrite.targetIndex], overwrite.newValue,
                                     fixedMaxVal, CenterPane.getHeight(), speedValue);
@@ -403,6 +404,15 @@ public class Controller implements Initializable {
                             Animation anim = SortingAnimator.createSingleColorFlashAnimation(
                                     bars[maxSelection.maxIndex],
                                     Color.LIMEGREEN, Color.STEELBLUE, speedValue);
+                            anim.setOnFinished(e -> latch.countDown());
+                            anim.play();
+                        });
+                        latch.await();
+                    } else if (sortingEvent instanceof BlockEvent block) {
+                        CountDownLatch latch = new CountDownLatch(1);
+                        Platform.runLater(() -> {
+                            Animation anim = SortingAnimator.createBlockColorAnimation(
+                                    bars, block.startIndex, block.endIndex, block.color, speedValue);
                             anim.setOnFinished(e -> latch.countDown());
                             anim.play();
                         });

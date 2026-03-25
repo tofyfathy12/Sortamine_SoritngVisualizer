@@ -59,6 +59,12 @@ public enum StrategyType {
         public SortingStrategy getStrategy() {
             return CountingSort.getInstance();
         }
+    },
+    BLOCK_SORT("Block Sort") {
+        @Override
+        public SortingStrategy getStrategy() {
+            return BlockSort.getInstance();
+        }
     };
 
     private final String displayName;
