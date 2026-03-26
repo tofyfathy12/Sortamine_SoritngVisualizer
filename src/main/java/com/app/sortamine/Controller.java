@@ -4,7 +4,6 @@ import com.app.sortamine.algorithms.*;
 import com.app.sortamine.events.*;
 import com.app.sortamine.models.ComparisonResult;
 import com.app.sortamine.utils.*;
-import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -15,7 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -28,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.CountDownLatch;
 
 public class Controller implements Initializable {
     @FXML
@@ -44,7 +42,11 @@ public class Controller implements Initializable {
     @FXML
     private Button AddFileButton;
     @FXML
-    private Pane CenterPane;
+    private VBox CenterVBox;
+    @FXML
+    private Pane TopPane;
+    @FXML
+    private Pane BottomPane;
     @FXML
     private Slider SpeedSlider;
     @FXML
@@ -82,7 +84,8 @@ public class Controller implements Initializable {
 
     private volatile int speedValue;
     private volatile int[] arr;
-    private volatile Rectangle[] bars;
+    private volatile Rectangle[] topBars;
+    private volatile Rectangle[] bottomBars;
     private volatile boolean isSorting = false;
 
     private SpinnerValueFactory<Integer> visualizerSpinnerValueFactory;
@@ -109,6 +112,25 @@ public class Controller implements Initializable {
         resultsTable = ComparisonService.createComparisonTable(comparisonResults);
         initializeResizeListeners();
         initializeFilesChoiceBox();
+        hideTwoTier();
+    }
+
+    private void hideTwoTier() {
+        BottomPane.setVisible(false);
+        BottomPane.setManaged(false);
+        BottomPane.getChildren().clear();
+        TopPane.prefHeightProperty().bind(CenterVBox.heightProperty());
+    }
+
+    private void showTwoTier() {
+        BottomPane.setVisible(true);
+        BottomPane.setManaged(true);
+        TopPane.prefHeightProperty().bind(CenterVBox.heightProperty().divide(2));
+        BottomPane.prefHeightProperty().bind(CenterVBox.heightProperty().divide(2));
+    }
+
+    private boolean isOutOfPlaceAlgorithm() {
+        return sortingStrategy instanceof MergeSort || sortingStrategy instanceof BlockSort;
     }
 
     private void initializeArrayTypeChoiceBox() {
@@ -126,7 +148,7 @@ public class Controller implements Initializable {
                     this.arr = Arrays.copyOf(fileArray, fileArray.length);
 
                     if (visualizeMode && arr.length <= 100) {
-                        this.bars = BarGenerator.generateBars(this.arr, CenterPane);
+                        rebuildBothBars();
                     }
                     this.selectedFileValueLabel.setText(fileName + "\n(" + fileArray.length + " elements)");
                 } catch (IOException | NumberFormatException e) {
@@ -162,6 +184,11 @@ public class Controller implements Initializable {
                 AlgorithmLabel.setText(sortingStrategy.getAlgorithmName());
                 NaryLabel.setVisible(newVal == StrategyType.N_ARY_HEAP_SORT);
                 NarySpinner.setVisible(newVal == StrategyType.N_ARY_HEAP_SORT);
+
+                if (visualizeMode) {
+                    if (isOutOfPlaceAlgorithm()) showTwoTier();
+                    else hideTwoTier();
+                }
             }
         });
     }
@@ -188,14 +215,18 @@ public class Controller implements Initializable {
     }
 
     private void initializeResizeListeners() {
-        CenterPane.widthProperty().addListener((obs, oldVal, newVal) -> rebuildBars());
-        CenterPane.heightProperty().addListener((obs, oldVal, newVal) -> rebuildBars());
+        TopPane.widthProperty().addListener((obs, oldVal, newVal) -> rebuildBothBars());
+        TopPane.heightProperty().addListener((obs, oldVal, newVal) -> rebuildBothBars());
+        BottomPane.heightProperty().addListener((obs, oldVal, newVal) -> rebuildBothBars());
     }
 
-    private void rebuildBars() {
+    private void rebuildBothBars() {
         if (!visualizeMode || arr == null || isSorting)
             return;
-        bars = BarGenerator.generateBars(arr, CenterPane);
+        topBars = BarGenerator.generateBars(arr, TopPane);
+        if (isOutOfPlaceAlgorithm()) {
+            bottomBars = BarGenerator.generateEmptyBars(arr.length, 0, BottomPane);
+        }
     }
 
     private void setSpinner() {
@@ -226,16 +257,17 @@ public class Controller implements Initializable {
 
         if (visualizeMode) {
             SortButton.setText("Sort");
-            CenterPane.getChildren().remove(resultsTable);
-            if (arr != null) {
-                bars = BarGenerator.generateBars(arr, CenterPane);
-            }
+            if (isOutOfPlaceAlgorithm()) showTwoTier();
+            else hideTwoTier();
+            TopPane.getChildren().remove(resultsTable);
+            rebuildBothBars();
         } else {
             SortButton.setText("Compare");
-            CenterPane.getChildren().clear();
-            resultsTable.prefWidthProperty().bind(CenterPane.widthProperty());
-            resultsTable.prefHeightProperty().bind(CenterPane.heightProperty());
-            CenterPane.getChildren().add(resultsTable);
+            hideTwoTier();
+            TopPane.getChildren().clear();
+            resultsTable.prefWidthProperty().bind(CenterVBox.widthProperty());
+            resultsTable.prefHeightProperty().bind(CenterVBox.heightProperty());
+            TopPane.getChildren().add(resultsTable);
         }
     }
 
@@ -253,8 +285,8 @@ public class Controller implements Initializable {
         int size = SizeSpinner.getValue();
 
         if (visualizeMode) {
-            this.arr = arrayGenerator.generate(size, CenterPane.getHeight());
-            this.bars = BarGenerator.generateBars(this.arr, CenterPane);
+            this.arr = arrayGenerator.generate(size, TopPane.getHeight());
+            rebuildBothBars();
         }
     }
 
@@ -265,7 +297,7 @@ public class Controller implements Initializable {
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Text Files", "*.txt"));
 
-        Stage stage = (Stage) CenterPane.getScene().getWindow();
+        Stage stage = (Stage) TopPane.getScene().getWindow();
         File file = fileChooser.showOpenDialog(stage);
 
         if (file != null) {
@@ -278,7 +310,7 @@ public class Controller implements Initializable {
                 this.arr = Arrays.copyOf(fileArray, fileArray.length);
 
                 if (visualizeMode && arr.length <= 100) {
-                    this.bars = BarGenerator.generateBars(this.arr, CenterPane);
+                    this.topBars = BarGenerator.generateBars(this.arr, TopPane);
                 }
                 selectedFileValueLabel.setText(fileName + "\n(" + fileArray.length + " elements)");
             } catch (IOException | NumberFormatException e) {
@@ -329,11 +361,17 @@ public class Controller implements Initializable {
             if (v > maxVal)
                 maxVal = v;
         }
-        final int fixedMaxVal = maxVal;
+
+        AnimationVisitor visitor = new AnimationVisitor(topBars, arr, TopPane, maxVal, speedValue);
+
+        if (isOutOfPlaceAlgorithm()) {
+            if (bottomBars == null || bottomBars.length != arr.length) {
+                bottomBars = BarGenerator.generateEmptyBars(arr.length, maxVal, BottomPane);
+            }
+            visitor.enableTwoTier(bottomBars, BottomPane);
+        }
 
         new Thread(() -> {
-            int comparisons = 0;
-            int interchanges = 0;
             int progressCounter = 0;
             long time = System.nanoTime();
             try {
@@ -341,88 +379,13 @@ public class Controller implements Initializable {
                     if (!isSorting)
                         break;
 
-                    if (sortingEvent instanceof SwapEvent swap) {
-                        CountDownLatch latch = new CountDownLatch(1);
-                        Platform.runLater(() -> {
-                            Rectangle rec1 = bars[swap.indexA];
-                            Rectangle rec2 = bars[swap.indexB];
-                            bars[swap.indexA] = rec2;
-                            bars[swap.indexB] = rec1;
-
-                            int temp = arr[swap.indexA];
-                            arr[swap.indexA] = arr[swap.indexB];
-                            arr[swap.indexB] = temp;
-
-                            Animation anim = SortingAnimator.createSwapAnimation(
-                                    rec1, rec2, swap.indexA, swap.indexB,
-                                    CenterPane.getWidth(), arr.length, speedValue);
-                            anim.setOnFinished(e -> latch.countDown());
-                            anim.play();
-                        });
-                        latch.await();
-                        interchanges++;
-
-                    } else if (sortingEvent instanceof CompareEvent compare) {
-                        CountDownLatch latch = new CountDownLatch(1);
-                        Platform.runLater(() -> {
-                            Animation anim = SortingAnimator.createColorFlashAnimation(
-                                    bars[compare.indexA], bars[compare.indexB],
-                                    Color.YELLOW, Color.STEELBLUE, speedValue);
-                            anim.setOnFinished(e -> latch.countDown());
-                            anim.play();
-                        });
-                        latch.await();
-                        comparisons++;
-
-                    } else if (sortingEvent instanceof OverwriteEvent overwrite) {
-                        CountDownLatch latch = new CountDownLatch(1);
-                        Platform.runLater(() -> {
-                            arr[overwrite.targetIndex] = overwrite.newValue;
-                            bars[overwrite.targetIndex].setFill(Color.STEELBLUE);
-                            Animation anim = SortingAnimator.createHeightChangeAnimation(
-                                    bars[overwrite.targetIndex], overwrite.newValue,
-                                    fixedMaxVal, CenterPane.getHeight(), speedValue);
-                            anim.setOnFinished(e -> latch.countDown());
-                            anim.play();
-                        });
-                        latch.await();
-                        interchanges++;
-
-                    } else if (sortingEvent instanceof MinSelectionEvent minSelection) {
-                        CountDownLatch latch = new CountDownLatch(1);
-                        Platform.runLater(() -> {
-                            Animation anim = SortingAnimator.createSingleColorFlashAnimation(
-                                    bars[minSelection.minIndex],
-                                    Color.LIMEGREEN, Color.STEELBLUE, speedValue);
-                            anim.setOnFinished(e -> latch.countDown());
-                            anim.play();
-                        });
-                        latch.await();
-                    } else if (sortingEvent instanceof MaxSelectionEvent maxSelection) {
-                        CountDownLatch latch = new CountDownLatch(1);
-                        Platform.runLater(() -> {
-                            Animation anim = SortingAnimator.createSingleColorFlashAnimation(
-                                    bars[maxSelection.maxIndex],
-                                    Color.LIMEGREEN, Color.STEELBLUE, speedValue);
-                            anim.setOnFinished(e -> latch.countDown());
-                            anim.play();
-                        });
-                        latch.await();
-                    } else if (sortingEvent instanceof BlockEvent block) {
-                        CountDownLatch latch = new CountDownLatch(1);
-                        Platform.runLater(() -> {
-                            Animation anim = SortingAnimator.createBlockColorAnimation(
-                                    bars, block.startIndex, block.endIndex, block.color, speedValue);
-                            anim.setOnFinished(e -> latch.countDown());
-                            anim.play();
-                        });
-                        latch.await();
-                    }
+                    visitor.setSpeedValue(speedValue);
+                    sortingEvent.accept(visitor);
 
                     progressCounter++;
                     final long elapsed = System.nanoTime() - time;
-                    final int currentComparisons = comparisons;
-                    final int currentInterchanges = interchanges;
+                    final int currentComparisons = visitor.getComparisons();
+                    final int currentInterchanges = visitor.getInterchanges();
                     int currentProgress = progressCounter;
                     Platform.runLater(() -> {
                         BigDecimal runTime = new BigDecimal(String.format("%.3f", (double) elapsed / 1_000_000_000L));

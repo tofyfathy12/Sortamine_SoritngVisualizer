@@ -42,4 +42,31 @@ public class BarGenerator {
 
         return visualBars;
     }
+
+    public static Rectangle[] generateEmptyBars(int count, int maxVal, Pane container) {
+        container.getChildren().clear();
+
+        double containerWidth = container.getWidth();
+        double containerHeight = container.getHeight();
+
+        double spacing = 1.0;
+        double barWidth = (containerWidth / count) - spacing;
+
+        Rectangle[] visualBars = new Rectangle[count];
+
+        for (int i = 0; i < count; i++) {
+            double xPos = i * (barWidth + spacing);
+            double yPos = containerHeight;
+
+            Rectangle bar = new Rectangle(barWidth, 0, Color.STEELBLUE);
+            bar.setX(xPos);
+            bar.setY(yPos);
+            bar.setOpacity(0.0);
+
+            visualBars[i] = bar;
+            container.getChildren().add(bar);
+        }
+
+        return visualBars;
+    }
 }

@@ -6,4 +6,9 @@ public class MinSelectionEvent extends SortingEvent{
         super(SortingEventType.MIN_SELECTION);
         this.minIndex = minIndex;
     }
+
+    @Override
+    public void accept(SortingEventVisitor visitor) throws InterruptedException {
+        visitor.visit(this);
+    }
 }

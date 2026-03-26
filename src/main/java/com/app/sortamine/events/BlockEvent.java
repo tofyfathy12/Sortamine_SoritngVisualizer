@@ -12,4 +12,9 @@ public class BlockEvent extends SortingEvent {
         this.startIndex = startIndex;
         this.endIndex = endIndex;
     }
+
+    @Override
+    public void accept(SortingEventVisitor visitor) throws InterruptedException {
+        visitor.visit(this);
+    }
 }

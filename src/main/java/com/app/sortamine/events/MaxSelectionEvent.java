@@ -6,4 +6,9 @@ public class MaxSelectionEvent extends SortingEvent{
         super(SortingEventType.MAX_SELECTION);
         this.maxIndex = maxIndex;
     }
+
+    @Override
+    public void accept(SortingEventVisitor visitor) throws InterruptedException {
+        visitor.visit(this);
+    }
 }

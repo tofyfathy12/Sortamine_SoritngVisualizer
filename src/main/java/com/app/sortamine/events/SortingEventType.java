@@ -7,4 +7,5 @@ public enum SortingEventType {
     MIN_SELECTION, // to be colored when visualizing
     MAX_SELECTION, // to be colored when visualizing
     BLOCK,
+    CONSUME,
 }

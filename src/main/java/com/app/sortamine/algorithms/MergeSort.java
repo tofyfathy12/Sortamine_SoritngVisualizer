@@ -47,6 +47,7 @@ public class MergeSort implements SortingStrategy {
         }
 
         for (k = 0; k < len1 + len2; k++) {
+            this.sortingEvents.add(new ConsumeEvent(start1 + k));
             arr[start1 + k] = tempArr[k];
             this.sortingEvents.add(new OverwriteEvent(start1 + k, tempArr[k]));
             this.interchanges++;

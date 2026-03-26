@@ -12,14 +12,17 @@ public class BlockSort implements SortingStrategy{
 
     private long comparisons = 0;
     private long interchanges = 0;
+    private final List<SortingEvent> sortingEvents = new ArrayList<>();
 
     static class Node {
         int value;
         int index;
+        int originalIndex;
 
-        public Node(int value, int index) {
+        public Node(int value, int index, int originalIndex) {
             this.value = value;
             this.index = index;
+            this.originalIndex = originalIndex;
         }
     }
     private final ArrayList<Node> list = new ArrayList<>();
@@ -40,7 +43,7 @@ public class BlockSort implements SortingStrategy{
     public List<SortingEvent> generateSortHistory(int[] originalData) {
         this.comparisons = 0;
         this.interchanges = 0;
-        List<SortingEvent> sortingEvents = new ArrayList<>();
+        sortingEvents.clear();
         int[] data = Arrays.copyOf(originalData, originalData.length);
 
         int blockSize = Math.max(3, (int) Math.sqrt(data.length));
@@ -59,7 +62,8 @@ public class BlockSort implements SortingStrategy{
 
         for (int j = 0; j < blocksLength; j++) {
             sortShell(data, sortingEvents, blocks[j][0], blocks[j][1]);
-            heapInsert(new Node(data[blocks[j][0]], j));
+            heapInsert(new Node(data[blocks[j][0]], j, blocks[j][0]));
+            sortingEvents.add(new ConsumeEvent(blocks[j][0]));
             blocks[j][0]++;
         }
 
@@ -73,7 +77,8 @@ public class BlockSort implements SortingStrategy{
 
             int bIndex = node.index;
             if (blocks[bIndex][0] < blocks[bIndex][1]) {
-                heapInsert(new Node(data[blocks[bIndex][0]], bIndex));
+                heapInsert(new Node(data[blocks[bIndex][0]], bIndex, blocks[bIndex][0]));
+                sortingEvents.add(new ConsumeEvent(blocks[bIndex][0]));
                 blocks[bIndex][0]++;
             }
         }
@@ -114,6 +119,7 @@ public class BlockSort implements SortingStrategy{
 
     private Node heapExtractMin() {
         Node minNum = list.getFirst();
+        this.sortingEvents.add(new MinSelectionEvent(minNum.originalIndex));
         Node last = list.removeLast();
         if (!list.isEmpty()) {
             list.set(0, last);
@@ -124,9 +130,12 @@ public class BlockSort implements SortingStrategy{
 
     private void heapInsert(Node num) {
         this.list.add(num);
+        this.sortingEvents.add(new MinSelectionEvent(num.originalIndex));
         int i = this.list.size() - 1;
         while (i > 0) {
             int parent = (i - 1) / 2;
+            this.sortingEvents.add(new CompareEvent(list.get(i).originalIndex, list.get(parent).originalIndex));
+            this.comparisons++;
             if (list.get(i).value < list.get(parent).value) {
                 Collections.swap(list, i, parent);
                 i = parent;
@@ -146,15 +155,27 @@ public class BlockSort implements SortingStrategy{
 
     private void minHeapify(int index) {
         while (true) {
-            int size = this.list.size();
+            int size = getHeapSize();
             int l = 2 * index + 1;
             int r = 2 * index + 2;
 
             int smallest = index;
             if (l < size && list.get(l).value < list.get(smallest).value)
                 smallest = l;
+
+            int temp = smallest;
             if (r < size && list.get(r).value < list.get(smallest).value)
                 smallest = r;
+
+            if (l < size) {
+                this.sortingEvents.add(new CompareEvent(list.get(l).originalIndex, list.get(index).originalIndex));
+                this.comparisons++;
+            }
+            if (r < size) {
+                this.sortingEvents.add(new CompareEvent(list.get(r).originalIndex, list.get(temp).originalIndex));
+                this.comparisons++;
+            }
+
             if (smallest == index) break;
             Collections.swap(list, index, smallest);
             index = smallest;

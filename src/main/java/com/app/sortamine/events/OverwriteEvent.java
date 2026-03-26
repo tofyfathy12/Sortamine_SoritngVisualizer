@@ -9,4 +9,9 @@ public class OverwriteEvent extends SortingEvent {
         this.targetIndex = targetIndex;
         this.newValue = newValue;
     }
+
+    @Override
+    public void accept(SortingEventVisitor visitor) throws InterruptedException {
+        visitor.visit(this);
+    }
 }

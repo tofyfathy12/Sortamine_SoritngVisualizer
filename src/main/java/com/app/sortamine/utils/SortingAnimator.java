@@ -70,6 +70,16 @@ public class SortingAnimator {
         return new SequentialTransition(fillOn, fillOff);
     }
 
+    public static ParallelTransition createConsumeAnimation(Rectangle bar, int speedValue) {
+        Duration duration = Duration.millis(getDurationMillis(speedValue));
+        
+        FillTransition fillTransition = new FillTransition(duration, bar, (Color) bar.getFill(), Color.STEELBLUE);
+        FadeTransition fadeTransition = new FadeTransition(duration, bar);
+        fadeTransition.setToValue(0.3);
+        
+        return new ParallelTransition(fillTransition, fadeTransition);
+    }
+
     public static ParallelTransition createBlockColorAnimation(Rectangle[] bars,
             int startIndex, int endIndex, Color targetColor, int speedValue) {
         Duration duration = Duration.millis(getDurationMillis(speedValue));

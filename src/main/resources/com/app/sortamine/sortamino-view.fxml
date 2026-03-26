@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane fx:id="MyBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="619.0" prefWidth="919.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.sortamine.Controller">
    <left>
@@ -39,7 +40,12 @@
       </AnchorPane>
    </top>
    <center>
-      <Pane fx:id="CenterPane" prefHeight="149.0" prefWidth="320.0" BorderPane.alignment="CENTER" />
+      <VBox fx:id="CenterVBox" BorderPane.alignment="CENTER">
+         <children>
+            <Pane fx:id="TopPane" VBox.vgrow="ALWAYS" />
+            <Pane fx:id="BottomPane" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
    </center>
    <bottom>
       <AnchorPane fx:id="BottomAnchorPane" prefHeight="112.0" prefWidth="660.0" BorderPane.alignment="CENTER">

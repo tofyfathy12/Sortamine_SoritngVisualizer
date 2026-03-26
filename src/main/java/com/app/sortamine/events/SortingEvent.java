@@ -6,4 +6,6 @@ public abstract class SortingEvent {
     protected SortingEvent(SortingEventType type) {
         this.type = type;
     }
+
+    public abstract void accept(SortingEventVisitor visitor) throws InterruptedException;
 }

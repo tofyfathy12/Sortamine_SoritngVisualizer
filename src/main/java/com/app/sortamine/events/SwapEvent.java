@@ -9,4 +9,9 @@ public class SwapEvent extends SortingEvent {
         this.indexA = indexA;
         this.indexB = indexB;
     }
+
+    @Override
+    public void accept(SortingEventVisitor visitor) throws InterruptedException {
+        visitor.visit(this);
+    }
 }
